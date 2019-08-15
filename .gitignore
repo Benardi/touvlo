@@ -105,3 +105,6 @@ venv.bak/
 
 .stestr
 
+# Miscellaneous
+.vscode/
+*.swp
