@@ -1,0 +1,7 @@
+CHANGES
+=======
+
+* Add tox. Configure sphinx. Add pbr
+* Add dummy code and dummy test
+* Add project structure. Add travis config with nose
+* Initial commit

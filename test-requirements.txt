@@ -1,0 +1,4 @@
+check-manifest
+pytest
+flake8
+flake8-import-order
