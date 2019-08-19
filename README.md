@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Benardi/ml_algorithms.svg?branch=master)](https://travis-ci.com/Benardi/ml_algorithms)
+[![Build Status](https://api.travis-ci.org/Benardi/ml_algorithms.svg?branch=master)](https://travis-ci.org/Benardi/ml_algorithms)
 [![Python 3.x](https://img.shields.io/badge/python-3.x-blue.svg)](https://www.python.org/downloads/release/python-370/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -30,7 +30,7 @@ Clone and enter the directory using cd
 ```
 git clone https://github.com/Benardi/ml_algorithms
 
-cd ToPresente
+cd ml_algorithms 
 ```
 
 Use venv to keep dependencies tidy, but you may opt not to use it.
@@ -59,15 +59,8 @@ pip3 install -r requirements.txt
 To execute tests simply run 
 
 ```
-python3 setup.py test
+tox
 ``` 
-
-or 
-
-```
-nosetests tests
-``` 
-
 
 ## Authors
 
@@ -81,4 +74,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* **Kenneth Reitz** - Python project [example repo](https://github.com/kennethreitz/samplemod)
+* **johnthagen** - python-blueprint [example repo](https://github.com/johnthagen/python-blueprint)

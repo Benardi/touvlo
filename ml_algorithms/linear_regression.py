@@ -4,15 +4,20 @@ import numpy as np
 def compute_cost(X, y, theta):
 
     m = len(X)  # number of training examples
+    J = (1 / (2 * m)) * ((X.dot(theta) - y).T).dot(X.dot(theta) - y)
+    return J
 
-    return (1 / (2 * m)) * ((X.dot(theta) - y).T).dot(X.dot(theta) - y)
+
+# model hypothesis
+def h(X, theta):
+    return X.dot(theta)
 
 
-def gradient_descent(X, y, theta, alpha, num_iters):
+def gradient_descent(X, y, initial_theta, alpha, num_iters):
+
     m = len(y)
-    opt_theta = np.copy(theta)
+    theta = np.copy(initial_theta)
     for i in range(num_iters):
-        opt_theta = opt_theta - alpha * \
-            (1 / m) * (X.T).dot(X.dot(opt_theta) - y)
+        theta = theta - alpha * (1 / m) * (X.T).dot(h(X, theta) - y)
 
-    return opt_theta
+    return theta

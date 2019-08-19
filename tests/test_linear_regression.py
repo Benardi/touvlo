@@ -5,7 +5,6 @@ import numpy as np
 
 from ml_algorithms.linear_regression import compute_cost
 
-
 TESTDATA1 = os.path.join(os.path.dirname(__file__), 'data1.csv')
 TESTDATA2 = os.path.join(os.path.dirname(__file__), 'data2.csv')
 
