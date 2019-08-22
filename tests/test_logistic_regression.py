@@ -7,18 +7,18 @@ from numpy.testing import assert_allclose
 from ml_algorithms.logistic_regression import (cost_function, grad,
                                                predict_prob, predict)
 
-TESTDATA1 = os.path.join(os.path.dirname(__file__), 'ex2data1.csv')
+TESTDATA3 = os.path.join(os.path.dirname(__file__), 'data3.csv')
 
 
 class TestLogisticRegression(unittest.TestCase):
 
     def setUp(self):
-        self.data1 = np.genfromtxt(TESTDATA1, delimiter=',')
+        self.data3 = np.genfromtxt(TESTDATA3, delimiter=',')
 
     def test_cost_function1(self):
 
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+        y = self.data3[:, -1:]
+        X = self.data3[:, :-1]
         m, n = X.shape
 
         intercept = np.ones((m, 1), dtype=np.int64)
@@ -31,8 +31,8 @@ class TestLogisticRegression(unittest.TestCase):
 
     def test_grad1(self):
 
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+        y = self.data3[:, -1:]
+        X = self.data3[:, :-1]
         m, n = X.shape
 
         intercept = np.ones((m, 1), dtype=np.int64)
@@ -46,8 +46,8 @@ class TestLogisticRegression(unittest.TestCase):
 
     def test_cost_function2(self):
 
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+        y = self.data3[:, -1:]
+        X = self.data3[:, :-1]
         m, n = X.shape
 
         intercept = np.ones((m, 1), dtype=np.int64)
@@ -60,8 +60,8 @@ class TestLogisticRegression(unittest.TestCase):
 
     def test_grad2(self):
 
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+        y = self.data3[:, -1:]
+        X = self.data3[:, :-1]
         m, n = X.shape
 
         intercept = np.ones((m, 1), dtype=np.int64)
