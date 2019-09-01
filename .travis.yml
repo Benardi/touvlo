@@ -6,7 +6,7 @@ language: python
 matrix:
   include:
     - python: 3.5
-      env: TOXENV=py35,pep8,docs
+      env: TOXENV=py35,pep8
            
 
 install: pip install tox
