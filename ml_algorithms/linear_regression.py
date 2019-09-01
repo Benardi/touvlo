@@ -1,12 +1,29 @@
 from numpy import zeros, int64
 from numpy.linalg import inv, LinAlgError
 
+# model hypothesis
+
+
+def h(X, theta):
+    return X.dot(theta)
+
 
 def cost_function(X, y, theta):
 
     m = len(y)  # number of training examples
     J = (1 / (2 * m)) * ((X.dot(theta) - y).T).dot(X.dot(theta) - y)
     return J
+
+
+def grad(X, y, theta):
+
+    m = len(y)
+    grad = (1 / m) * (X.T).dot(h(X, theta) - y)
+    return grad
+
+
+def predict(X, theta):
+    return X.dot(theta)
 
 
 def normal_eqn(X, y):
@@ -21,18 +38,3 @@ def normal_eqn(X, y):
         pass
 
     return theta
-
-
-# model hypothesis
-def h(X, theta):
-    return X.dot(theta)
-
-
-def predict(X, theta):
-    return X.dot(theta)
-
-
-def grad(theta, X, y, m):
-
-    grad = (1 / m) * (X.T).dot(h(X, theta) - y)
-    return grad

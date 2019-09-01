@@ -10,13 +10,7 @@ def h(X, theta):
     return g(X.dot(theta))
 
 
-def grad(theta, X, y, m):
-
-    grad = (1 / m) * (X.T).dot(h(X, theta) - y)
-    return grad
-
-
-def cost_function(theta, X, y):
+def cost_function(X, y, theta):
 
     m = len(y)
     J = (1 / m) * ((-y.T).dot(np.log(h(X, theta)))
@@ -25,9 +19,15 @@ def cost_function(theta, X, y):
     return J
 
 
-def predict_prob(theta, X):
+def grad(X, y, theta):
+    m = len(y)
+    grad = (1 / m) * (X.T).dot(h(X, theta) - y)
+    return grad
+
+
+def predict_prob(X, theta):
     return g(X.dot(theta))
 
 
-def predict(theta, X):
-    return p(predict_prob(theta, X))
+def predict(X, theta):
+    return p(predict_prob(X, theta))
