@@ -1,0 +1,84 @@
+from math import radians
+import unittest
+
+from numpy import array, cos, sin, exp
+from numpy.testing import assert_allclose
+
+from ml_algorithms.utils import numerical_grad
+
+
+class TestLogisticRegression(unittest.TestCase):
+
+    def test_numeric_grad_1(self):
+
+        def J(x):
+            return sum(3 * (x ** 2))
+
+        theta = array([[0], [4], [10]])
+        err = 0.0001
+
+        assert_allclose(array([[0], [24], [60]]),
+                        numerical_grad(J, theta, err),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_numeric_grad_2(self):
+
+        def J(x):
+            return sum(1 / x)
+
+        theta = array([[5], [8], [20]])
+        err = 0.0001
+
+        assert_allclose(array([[-0.04], [-0.015625], [-0.0025]]),
+                        numerical_grad(J, theta, err),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_numeric_grad_3(self):
+
+        def J(x):
+            return sum(cos(x))
+
+        theta = array([[radians(30)],
+                       [radians(45)],
+                       [radians(60)],
+                       [radians(90)]])
+        err = 0.0001
+
+        assert_allclose(array([[-sin(radians(30))],
+                               [-sin(radians(45))],
+                               [-sin(radians(60))],
+                               [-sin(radians(90))]]),
+                        numerical_grad(J, theta, err),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_numeric_grad_4(self):
+
+        def J(x):
+            return sum(exp(x))
+
+        theta = array([[-10], [-1], [0], [1], [10]])
+        err = 0.0001
+
+        assert_allclose(array([[exp(-10)],
+                               [exp(-1)],
+                               [exp(0)],
+                               [exp(1)],
+                               [exp(10)]]),
+                        numerical_grad(J, theta, err),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_numeric_grad_5(self):
+
+        def J(x):
+            return sum(7 * x)
+
+        theta = array([[-10], [-1], [0], [1], [10]])
+        err = 0.0001
+
+        assert_allclose(array([[7],
+                               [7],
+                               [7],
+                               [7],
+                               [7]]),
+                        numerical_grad(J, theta, err),
+                        rtol=0, atol=0.001, equal_nan=False)
