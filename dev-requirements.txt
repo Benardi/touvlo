@@ -2,3 +2,5 @@ check-manifest
 pytest
 flake8
 flake8-import-order
+Sphinx
+rtcat_sphinx_theme
