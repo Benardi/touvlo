@@ -1,17 +1,24 @@
 from numpy import zeros, int64
 from numpy.linalg import inv, LinAlgError
 
+
 # model hypothesis
-
-
 def h(X, theta):
     return X.dot(theta)
 
 
-def cost_function(X, y, theta):
+def cost_func(X, y, theta):
 
     m = len(y)  # number of training examples
-    J = (1 / (2 * m)) * ((X.dot(theta) - y).T).dot(X.dot(theta) - y)
+    J = (1 / (2 * m)) * ((h(X, theta) - y).T).dot(h(X, theta) - y)
+    return J
+
+
+def cost_func_reg(X, y, theta, _lambda):
+
+    m = len(y)  # number of training examples
+    J = (1 / (2 * m)) * ((h(X, theta) - y).T).dot(h(X, theta) - y)
+    J = J + (_lambda / (2 * m)) * (theta[1:, :].T).dot(theta[1:, :])
     return J
 
 
@@ -19,6 +26,14 @@ def grad(X, y, theta):
 
     m = len(y)
     grad = (1 / m) * (X.T).dot(h(X, theta) - y)
+    return grad
+
+
+def reg_grad(X, y, theta, _lambda):
+
+    m = len(y)
+    grad = (1 / m) * (X.T).dot(h(X, theta) - y)
+    grad[1:, :] = grad[1:, :] + (_lambda / m) * theta[1:, :]
     return grad
 
 
