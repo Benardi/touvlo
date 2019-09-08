@@ -1,4 +1,4 @@
-from numpy import zeros, int64
+from numpy import zeros, float64
 from numpy.linalg import inv, LinAlgError
 
 
@@ -14,7 +14,7 @@ def cost_func(X, y, theta):
     return J
 
 
-def cost_func_reg(X, y, theta, _lambda):
+def reg_cost_func(X, y, theta, _lambda):
 
     m = len(y)  # number of training examples
     J = (1 / (2 * m)) * ((h(X, theta) - y).T).dot(h(X, theta) - y)
@@ -43,7 +43,7 @@ def predict(X, theta):
 
 def normal_eqn(X, y):
     n = X.shape[1]  # number of columns
-    theta = zeros((n + 1, 1), dtype=int64)
+    theta = zeros((n + 1, 1), dtype=float64)
 
     try:
         X_T = X.T
