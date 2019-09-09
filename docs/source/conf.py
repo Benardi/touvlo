@@ -25,9 +25,9 @@ copyright = '2019, Benardi Nunes'
 author = 'Benardi Nunes'
 
 # The short X.Y version
-version = ''
+version = '0.1'
 # The full version, including alpha/beta/rc tags
-release = '0.0.1'
+release = '0.1.3'
 
 
 # -- General configuration ---------------------------------------------------
