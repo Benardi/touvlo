@@ -12,11 +12,21 @@
 #
 import os
 import sys
+from unittest.mock import MagicMock
 sys.path.insert(0, os.path.abspath('../..'))
 sys.setrecursionlimit(1500)
 
 # Cool theme
 import rtcat_sphinx_theme
+
+
+class Mock(MagicMock):
+    @classmethod
+    def __getattr__(cls, name):
+        return MagicMock()
+
+MOCK_MODULES = ['numpy', 'numpy.linalg']
+sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 # -- Project information -----------------------------------------------------
 
@@ -87,6 +97,9 @@ html_theme_path = [rtcat_sphinx_theme.get_html_theme_path()]
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+def setup(app):
+    app.add_stylesheet("css/theme.css")
+
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
 #
@@ -143,7 +156,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   (master_doc, 'MLAlgorithms', 'ML Algorithms Documentation',
-   author, 'MLAlgorithms', 'One line description of project.',
+   author, 'MLAlgorithms', 'Machine Learning algorithms and models implemented from scratch.',
    'Miscellaneous'),
             ]
 

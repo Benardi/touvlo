@@ -1,3 +1,10 @@
+"""
+.. module:: lgx_rg
+    :synopsis: Provides routines to construct a Logistic Regression.
+
+.. moduleauthor:: Benardi Nunes <benardinunes@gmail.com>
+"""
+
 from numpy import log, zeros, vectorize, exp
 
 # sigmoid function
