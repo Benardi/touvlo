@@ -1,6 +1,6 @@
 """
 .. module:: utils
-    :synopsis: This module provides routines of interest to different models.
+    :synopsis: Provides routines of interest to different ML models.
 
 .. moduleauthor:: Benardi Nunes <benardinunes@gmail.com>
 """

@@ -1,10 +1,11 @@
 [![Build Status](https://api.travis-ci.org/Benardi/ml_algorithms.svg?branch=master)](https://travis-ci.org/Benardi/ml_algorithms)
+[![Documentation Status](https://readthedocs.org/projects/ml-algorithms/badge/?version=latest)](https://ml-algorithms.readthedocs.io/en/latest/?badge=latest)
 [![Python 3.x](https://img.shields.io/badge/python-3.x-blue.svg)](https://www.python.org/downloads/release/python-370/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Machine Learning Algorithms
 
-Machine Learning algorithms implemented in Python
+This project provides Machine Learning algorithms and models implemented from scratch. These implementation aren't meant to be performatic, but instead to expose the logic of the components that make the Machine Learning models possible. For this reason the routines employed by the models are also provided and tested separately.
 
 ## Getting Started
 
@@ -19,8 +20,14 @@ Both are readily available in packages:
 sudo apt update
 sudo apt install python3
 sudo apt install python3-pip
+```
+To run the testing environments we have provided you'll also need to install tox
 
 ```
+sudo apt update
+sudo apt install tox
+```
+
 **Optionally**: venv
 
 ### Installing
@@ -52,15 +59,33 @@ Use pip to install the requirements
 pip3 install -r requirements.txt
 ```
 
-
-
 # Running the tests
 
-To execute tests simply run 
+To execute all testing environments simply run 
 
 ```
 tox
 ``` 
+
+## Unit tests
+
+To execute only the unit tests, run 
+
+```
+tox -e py35
+``` 
+
+## Coding style tests
+
+To execute only the coding style tests, run 
+
+```
+tox -e pep8
+``` 
+
+## Versioning
+
+We use [Git](https://git-scm.com) for versioning. For the versions available, see the [tags on this repository](https://github.com/Benardi/ml_algorithms/tags). 
 
 ## Authors
 
