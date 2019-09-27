@@ -8,7 +8,8 @@
 from numpy import zeros, copy, std, mean, float64
 
 
-def gradient_descent(X, y, grad, initial_theta, alpha, num_iters):
+def gradient_descent(X, y, grad, initial_theta,
+                     alpha, num_iters, _lambda=None):
     """This function performs parameter optimization via gradient descent.
 
     :param X: Features' dataset plus bias column.
@@ -29,13 +30,24 @@ def gradient_descent(X, y, grad, initial_theta, alpha, num_iters):
     :param num_iters: Number of times the optimization will be performed.
     :type num_iters: int
 
+    :param _lambda: Weight of the penalty term.
+    :type _lambda: float
+
     :returns: Optimized model parameters.
     :rtype: numpy.array
     """
-    m = len(y)
-    theta = copy(initial_theta)
-    for _ in range(num_iters):
-        theta = theta - alpha * (1 / m) * grad(theta, X, y, m)
+    if _lambda is not None:
+        m = len(y)
+        theta = copy(initial_theta)
+
+        for _ in range(num_iters):
+            theta = theta - alpha * (1 / m) * grad(theta, X, y, _lambda)
+
+    else:
+        m = len(y)
+        theta = copy(initial_theta)
+        for _ in range(num_iters):
+            theta = theta - alpha * (1 / m) * grad(theta, X, y)
 
     return theta
 
