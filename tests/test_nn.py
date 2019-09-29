@@ -5,19 +5,36 @@ from numpy.testing import assert_allclose
 
 from ml_algorithms.nn import (feed_forward, init_nn_weights,
                               back_propagation, cost_function,
-                              grad, g_grad, unravel_params)
+                              grad, unravel_params)
 
 
 class TestNeuralNetwork(unittest.TestCase):
-
-    def setUp(self):
-        pass
-
-    def test_sigmoid_grad(self):
-        z = array([-1, -0.5, 0, 0.5, 1])
-        assert_allclose(g_grad(z),
-                        [0.196612, 0.235004, 0.25, 0.235004, 0.196612],
-                        rtol=0, atol=0.001, equal_nan=False)
+    @classmethod
+    def setUp(cls):
+        cls.omicron = array([[0.35, 0.78, 0.13, 0.90],
+                             [0.27, 0.66, 0.62, 0.20],
+                             [0.64, 0.36, 0.76, 0.33],
+                             [0.00, 0.70, 0.78, 0.85],
+                             [0.55, 0.72, 0.24, 0.43]])
+        cls.omega = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
+                           [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
+                           [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
+        cls.kappa = array([[0.98, 0.6, 0.18, 0.47, 0.07, 1],
+                           [0.9, 0.38, 0.38, 0.36, 0.52, 0.85],
+                           [0.57, 0.23, 0.41, 0.45, 0.04, 0.24],
+                           [0.46, 0.94, 0.03, 0.06, 0.19, 0.63],
+                           [0.87, 0.4, 0.85, 0.07, 0.81, 0.76]])
+        cls.upsilon = array([[0.9, 0.95, 0.05, 0.05, 0.65, 0.11],
+                             [0.84, 0.57, 0.17, 0.62, 0.06, 0.36],
+                             [0.36, 0.6, 0.54, 0.49, 0.3, 0.03],
+                             [0.11, 0.49, 0.71, 0.43, 0.01, 0.92],
+                             [0.02, 0.01, 0.94, 0.35, 0.69, 0.88]])
+        cls.zeta = array([[0.91672, 0.85806, 0.81484],
+                          [0.89115, 0.83518, 0.78010],
+                          [0.93880, 0.88464, 0.84335]])
+        cls.iota = array([[0.017, 0.422, 0.739, -0.121, 0.479],
+                          [-0.346, 0.018, 0.37, -0.65, 0.148],
+                          [0.781, 0.484, 0.9405, 0.5385, 0.7915]])
 
     def test_cost_function1(self):
         X = array([[0.10, 0.30, -0.50], [-0.20, 0, -0.60], [0, 0.20, 0.45]])
@@ -27,12 +44,8 @@ class TestNeuralNetwork(unittest.TestCase):
         _lambda = 0
 
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = array([[0.35, 0.78, 0.13, 0.90], [0.27, 0.66, 0.62, 0.20],
-                          [0.64, 0.36, 0.76, 0.33], [0.00, 0.70, 0.78, 0.85],
-                          [0.55, 0.72, 0.24, 0.43]])
-        theta[1] = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
-                          [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
-                          [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
+        theta[0] = self.omicron
+        theta[1] = self.omega
 
         assert_allclose(cost_function(X, y, theta, _lambda,
                                       num_labels, n_hidden_layers),
@@ -47,12 +60,8 @@ class TestNeuralNetwork(unittest.TestCase):
         _lambda = 1
 
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = array([[0.35, 0.78, 0.13, 0.90], [0.27, 0.66, 0.62, 0.20],
-                          [0.64, 0.36, 0.76, 0.33], [0.00, 0.70, 0.78, 0.85],
-                          [0.55, 0.72, 0.24, 0.43]])
-        theta[1] = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
-                          [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
-                          [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
+        theta[0] = self.omicron
+        theta[1] = self.omega
 
         assert_allclose(cost_function(X, y, theta, _lambda,
                                       num_labels, n_hidden_layers),
@@ -67,12 +76,8 @@ class TestNeuralNetwork(unittest.TestCase):
         _lambda = 10
 
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = array([[0.35, 0.78, 0.13, 0.90], [0.27, 0.66, 0.62, 0.20],
-                          [0.64, 0.36, 0.76, 0.33], [0.00, 0.70, 0.78, 0.85],
-                          [0.55, 0.72, 0.24, 0.43]])
-        theta[1] = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
-                          [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
-                          [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
+        theta[0] = self.omicron
+        theta[1] = self.omega
 
         assert_allclose(cost_function(X, y, theta, _lambda,
                                       num_labels, n_hidden_layers),
@@ -87,22 +92,10 @@ class TestNeuralNetwork(unittest.TestCase):
         _lambda = 0
 
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = array([[0.35, 0.78, 0.13, 0.90], [0.27, 0.66, 0.62, 0.20],
-                          [0.64, 0.36, 0.76, 0.33], [0.00, 0.70, 0.78, 0.85],
-                          [0.55, 0.72, 0.24, 0.43]])
-        theta[1] = array([[0.98, 0.6, 0.18, 0.47, 0.07, 1],
-                          [0.9, 0.38, 0.38, 0.36, 0.52, 0.85],
-                          [0.57, 0.23, 0.41, 0.45, 0.04, 0.24],
-                          [0.46, 0.94, 0.03, 0.06, 0.19, 0.63],
-                          [0.87, 0.4, 0.85, 0.07, 0.81, 0.76]])
-        theta[2] = array([[0.9, 0.95, 0.05, 0.05, 0.65, 0.11],
-                          [0.84, 0.57, 0.17, 0.62, 0.06, 0.36],
-                          [0.36, 0.6, 0.54, 0.49, 0.3, 0.03],
-                          [0.11, 0.49, 0.71, 0.43, 0.01, 0.92],
-                          [0.02, 0.01, 0.94, 0.35, 0.69, 0.88]])
-        theta[3] = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
-                          [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
-                          [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
+        theta[0] = self.omicron
+        theta[1] = self.kappa
+        theta[2] = self.upsilon
+        theta[3] = self.omega
 
         assert_allclose(cost_function(X, y, theta, _lambda,
                                       num_labels, n_hidden_layers),
@@ -117,22 +110,10 @@ class TestNeuralNetwork(unittest.TestCase):
         _lambda = 1
 
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = array([[0.35, 0.78, 0.13, 0.90], [0.27, 0.66, 0.62, 0.20],
-                          [0.64, 0.36, 0.76, 0.33], [0.00, 0.70, 0.78, 0.85],
-                          [0.55, 0.72, 0.24, 0.43]])
-        theta[1] = array([[0.98, 0.6, 0.18, 0.47, 0.07, 1],
-                          [0.9, 0.38, 0.38, 0.36, 0.52, 0.85],
-                          [0.57, 0.23, 0.41, 0.45, 0.04, 0.24],
-                          [0.46, 0.94, 0.03, 0.06, 0.19, 0.63],
-                          [0.87, 0.4, 0.85, 0.07, 0.81, 0.76]])
-        theta[2] = array([[0.9, 0.95, 0.05, 0.05, 0.65, 0.11],
-                          [0.84, 0.57, 0.17, 0.62, 0.06, 0.36],
-                          [0.36, 0.6, 0.54, 0.49, 0.3, 0.03],
-                          [0.11, 0.49, 0.71, 0.43, 0.01, 0.92],
-                          [0.02, 0.01, 0.94, 0.35, 0.69, 0.88]])
-        theta[3] = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
-                          [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
-                          [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
+        theta[0] = self.omicron
+        theta[1] = self.kappa
+        theta[2] = self.upsilon
+        theta[3] = self.omega
 
         assert_allclose(cost_function(X, y, theta, _lambda,
                                       num_labels, n_hidden_layers),
@@ -147,22 +128,10 @@ class TestNeuralNetwork(unittest.TestCase):
         _lambda = 10
 
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = array([[0.35, 0.78, 0.13, 0.90], [0.27, 0.66, 0.62, 0.20],
-                          [0.64, 0.36, 0.76, 0.33], [0.00, 0.70, 0.78, 0.85],
-                          [0.55, 0.72, 0.24, 0.43]])
-        theta[1] = array([[0.98, 0.6, 0.18, 0.47, 0.07, 1],
-                          [0.9, 0.38, 0.38, 0.36, 0.52, 0.85],
-                          [0.57, 0.23, 0.41, 0.45, 0.04, 0.24],
-                          [0.46, 0.94, 0.03, 0.06, 0.19, 0.63],
-                          [0.87, 0.4, 0.85, 0.07, 0.81, 0.76]])
-        theta[2] = array([[0.9, 0.95, 0.05, 0.05, 0.65, 0.11],
-                          [0.84, 0.57, 0.17, 0.62, 0.06, 0.36],
-                          [0.36, 0.6, 0.54, 0.49, 0.3, 0.03],
-                          [0.11, 0.49, 0.71, 0.43, 0.01, 0.92],
-                          [0.02, 0.01, 0.94, 0.35, 0.69, 0.88]])
-        theta[3] = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
-                          [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
-                          [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
+        theta[0] = self.omicron
+        theta[1] = self.kappa
+        theta[2] = self.upsilon
+        theta[3] = self.omega
 
         assert_allclose(cost_function(X, y, theta, _lambda,
                                       num_labels, n_hidden_layers),
@@ -174,12 +143,8 @@ class TestNeuralNetwork(unittest.TestCase):
         X = array([[1, 0.10, 0.30, -0.50]])
 
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = array([[0.35, 0.78, 0.13, 0.90], [0.27, 0.66, 0.62, 0.20],
-                          [0.64, 0.36, 0.76, 0.33], [0.00, 0.70, 0.78, 0.85],
-                          [0.55, 0.72, 0.24, 0.43]])
-        theta[1] = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
-                          [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
-                          [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
+        theta[0] = self.omicron
+        theta[1] = self.omega
 
         z, a = feed_forward(X, theta)
 
@@ -205,12 +170,8 @@ class TestNeuralNetwork(unittest.TestCase):
         X = array([[1, -0.2, 0, -0.6]])
 
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = array([[0.35, 0.78, 0.13, 0.90], [0.27, 0.66, 0.62, 0.20],
-                          [0.64, 0.36, 0.76, 0.33], [0.00, 0.70, 0.78, 0.85],
-                          [0.55, 0.72, 0.24, 0.43]])
-        theta[1] = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
-                          [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
-                          [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
+        theta[0] = self.omicron
+        theta[1] = self.omega
 
         z, a = feed_forward(X, theta)
 
@@ -235,12 +196,8 @@ class TestNeuralNetwork(unittest.TestCase):
         n_hidden_layers = 1
         X = array([[1, 0, 0.2, 0.45]])
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = array([[0.35, 0.78, 0.13, 0.90], [0.27, 0.66, 0.62, 0.20],
-                          [0.64, 0.36, 0.76, 0.33], [0.00, 0.70, 0.78, 0.85],
-                          [0.55, 0.72, 0.24, 0.43]])
-        theta[1] = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
-                          [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
-                          [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
+        theta[0] = self.omicron
+        theta[1] = self.omega
 
         z, a = feed_forward(X, theta, n_hidden_layers)
         assert_allclose(a[0],
@@ -268,22 +225,10 @@ class TestNeuralNetwork(unittest.TestCase):
         X = array([[1, 0, 0.2, 0.45]])
         theta = empty((n_hidden_layers + 1), dtype=object)
 
-        theta[0] = array([[0.35, 0.78, 0.13, 0.90], [0.27, 0.66, 0.62, 0.20],
-                          [0.64, 0.36, 0.76, 0.33], [0.00, 0.70, 0.78, 0.85],
-                          [0.55, 0.72, 0.24, 0.43]])
-        theta[1] = array([[0.98, 0.6, 0.18, 0.47, 0.07, 1],
-                          [0.9, 0.38, 0.38, 0.36, 0.52, 0.85],
-                          [0.57, 0.23, 0.41, 0.45, 0.04, 0.24],
-                          [0.46, 0.94, 0.03, 0.06, 0.19, 0.63],
-                          [0.87, 0.4, 0.85, 0.07, 0.81, 0.76]])
-        theta[2] = array([[0.9, 0.95, 0.05, 0.05, 0.65, 0.11],
-                          [0.84, 0.57, 0.17, 0.62, 0.06, 0.36],
-                          [0.36, 0.6, 0.54, 0.49, 0.3, 0.03],
-                          [0.11, 0.49, 0.71, 0.43, 0.01, 0.92],
-                          [0.02, 0.01, 0.94, 0.35, 0.69, 0.88]])
-        theta[3] = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
-                          [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
-                          [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
+        theta[0] = self.omicron
+        theta[1] = self.kappa
+        theta[2] = self.upsilon
+        theta[3] = self.omega
 
         z, a = feed_forward(X, theta, n_hidden_layers)
 
@@ -331,12 +276,8 @@ class TestNeuralNetwork(unittest.TestCase):
 
         theta = empty((n_hidden_layers + 1), dtype=object)
 
-        theta[0] = array([[0.35, 0.78, 0.13, 0.90], [0.27, 0.66, 0.62, 0.20],
-                          [0.64, 0.36, 0.76, 0.33], [0.00, 0.70, 0.78, 0.85],
-                          [0.55, 0.72, 0.24, 0.43]])
-        theta[1] = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
-                          [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
-                          [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
+        theta[0] = self.omicron
+        theta[1] = self.omega
 
         nn_params = append(theta[0].flatten(), theta[1].flatten())
         for i in range(2, len(theta)):
@@ -382,15 +323,9 @@ class TestNeuralNetwork(unittest.TestCase):
         a = empty((n_hidden_layers + 2), dtype=object)
         z = empty((n_hidden_layers + 2), dtype=object)
 
-        theta[1] = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
-                          [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
-                          [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
-        a[2] = array([[0.91672, 0.85806, 0.81484],
-                      [0.89115, 0.83518, 0.78010],
-                      [0.93880, 0.88464, 0.84335]])
-        z[1] = array([[0.017, 0.422, 0.739, -0.121, 0.479],
-                      [-0.346, 0.018, 0.37, -0.65, 0.148],
-                      [0.781, 0.484, 0.9405, 0.5385, 0.7915]])
+        theta[1] = self.omega
+        a[2] = self.zeta
+        z[1] = self.iota
 
         delta = back_propagation(theta, a, z, num_labels, y, n_hidden_layers)
 
@@ -419,15 +354,9 @@ class TestNeuralNetwork(unittest.TestCase):
         a = empty((n_hidden_layers + 2), dtype=object)
         z = empty((n_hidden_layers + 2), dtype=object)
 
-        theta[1] = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
-                          [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
-                          [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
-        a[2] = array([[0.91672, 0.85806, 0.81484],
-                      [0.89115, 0.83518, 0.78010],
-                      [0.93880, 0.88464, 0.84335]])
-        z[1] = array([[0.017, 0.422, 0.739, -0.121, 0.479],
-                      [-0.346, 0.018, 0.37, -0.65, 0.148],
-                      [0.781, 0.484, 0.9405, 0.5385, 0.7915]])
+        theta[1] = self.omega
+        a[2] = self.zeta
+        z[1] = self.iota
 
         delta = back_propagation(theta, a, z, num_labels, y, n_hidden_layers)
 
@@ -456,15 +385,9 @@ class TestNeuralNetwork(unittest.TestCase):
         a = empty((n_hidden_layers + 2), dtype=object)
         z = empty((n_hidden_layers + 2), dtype=object)
 
-        theta[1] = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
-                          [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
-                          [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
-        a[2] = array([[0.91672, 0.85806, 0.81484],
-                      [0.89115, 0.83518, 0.78010],
-                      [0.93880, 0.88464, 0.84335]])
-        z[1] = array([[0.017, 0.422, 0.739, -0.121, 0.479],
-                      [-0.346, 0.018, 0.37, -0.65, 0.148],
-                      [0.781, 0.484, 0.9405, 0.5385, 0.7915]])
+        theta[1] = self.omega
+        a[2] = self.zeta
+        z[1] = self.iota
 
         delta = back_propagation(theta, a, z, num_labels, y, n_hidden_layers)
 
@@ -490,22 +413,10 @@ class TestNeuralNetwork(unittest.TestCase):
         z = empty((n_hidden_layers + 2), dtype=object)
         a = empty((n_hidden_layers + 2), dtype=object)
 
-        theta[0] = array([[0.35, 0.78, 0.13, 0.90], [0.27, 0.66, 0.62, 0.20],
-                          [0.64, 0.36, 0.76, 0.33], [0.00, 0.70, 0.78, 0.85],
-                          [0.55, 0.72, 0.24, 0.43]])
-        theta[1] = array([[0.98, 0.6, 0.18, 0.47, 0.07, 1],
-                          [0.9, 0.38, 0.38, 0.36, 0.52, 0.85],
-                          [0.57, 0.23, 0.41, 0.45, 0.04, 0.24],
-                          [0.46, 0.94, 0.03, 0.06, 0.19, 0.63],
-                          [0.87, 0.4, 0.85, 0.07, 0.81, 0.76]])
-        theta[2] = array([[0.9, 0.95, 0.05, 0.05, 0.65, 0.11],
-                          [0.84, 0.57, 0.17, 0.62, 0.06, 0.36],
-                          [0.36, 0.6, 0.54, 0.49, 0.3, 0.03],
-                          [0.11, 0.49, 0.71, 0.43, 0.01, 0.92],
-                          [0.02, 0.01, 0.94, 0.35, 0.69, 0.88]])
-        theta[3] = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
-                          [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
-                          [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
+        theta[0] = self.omicron
+        theta[1] = self.kappa
+        theta[2] = self.upsilon
+        theta[3] = self.omega
 
         a[0] = array([[1, 0, 0.2, 0.45]])
         a[1] = array([[1, 0.6859, 0.61869, 0.7192, 0.63146, 0.68815]])

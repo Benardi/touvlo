@@ -15,10 +15,11 @@ TESTDATA4 = os.path.join(os.path.dirname(__file__), 'data4.csv')
 
 class TestLogisticRegression(unittest.TestCase):
 
-    def setUp(self):
-        self.data3 = genfromtxt(TESTDATA3, delimiter=',')
-        self.data4 = genfromtxt(TESTDATA4, delimiter=',')
-        self.err = 1e-4
+    @classmethod
+    def setUpClass(cls):
+        cls.data3 = genfromtxt(TESTDATA3, delimiter=',')
+        cls.data4 = genfromtxt(TESTDATA4, delimiter=',')
+        cls.err = 1e-4
 
 
 # COST FUNCTION

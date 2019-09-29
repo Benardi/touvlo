@@ -5,7 +5,33 @@
 .. moduleauthor:: Benardi Nunes <benardinunes@gmail.com>
 """
 
-from numpy import zeros, copy, std, mean, float64
+from numpy import zeros, copy, std, mean, float64, exp
+
+
+# sigmoid gradient function
+def g(x):
+    """This function applies the sigmoid function on a given value.
+
+    :param x: Input value or object containing value .
+    :type x: obj
+
+    :returns: Sigmoid function at value.
+    :rtype: obj
+    """
+    return 1 / (1 + exp(-x))
+
+
+# sigmoid gradient function
+def g_grad(x):
+    """This function calculates the sigmoid gradient at a given value.
+
+    :param x: Input value or object containing value .
+    :type x: obj
+
+    :returns: Sigmoid gradient at value.
+    :rtype: obj
+    """
+    return g(x) * (1 - g(x))
 
 
 def gradient_descent(X, y, grad, initial_theta,

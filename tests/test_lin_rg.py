@@ -16,10 +16,11 @@ TESTDATA2 = os.path.join(os.path.dirname(__file__), 'data2.csv')
 
 class TestLinearRegression(unittest.TestCase):
 
-    def setUp(self):
-        self.data1 = genfromtxt(TESTDATA1, delimiter=',')
-        self.data2 = genfromtxt(TESTDATA2, delimiter=',')
-        self.err = 1e-4
+    @classmethod
+    def setUpClass(cls):
+        cls.data1 = genfromtxt(TESTDATA1, delimiter=',')
+        cls.data2 = genfromtxt(TESTDATA2, delimiter=',')
+        cls.err = 1e-4
 
 # NORMAL EQUATION
 

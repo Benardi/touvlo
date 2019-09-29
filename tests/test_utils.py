@@ -4,7 +4,7 @@ import unittest
 from numpy import array, cos, sin, exp
 from numpy.testing import assert_allclose
 
-from ml_algorithms.utils import numerical_grad
+from ml_algorithms.utils import numerical_grad, g_grad
 
 
 class TestLogisticRegression(unittest.TestCase):
@@ -81,4 +81,10 @@ class TestLogisticRegression(unittest.TestCase):
                                [7],
                                [7]]),
                         numerical_grad(J, theta, err),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_sigmoid_gradient(self):
+        z = array([-1, -0.5, 0, 0.5, 1])
+        assert_allclose(g_grad(z),
+                        [0.196612, 0.235004, 0.25, 0.235004, 0.196612],
                         rtol=0, atol=0.001, equal_nan=False)
