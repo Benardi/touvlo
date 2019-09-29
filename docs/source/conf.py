@@ -25,7 +25,7 @@ class Mock(MagicMock):
     def __getattr__(cls, name):
         return MagicMock()
 
-MOCK_MODULES = ['numpy', 'numpy.linalg']
+MOCK_MODULES = ['numpy', 'numpy.linalg', 'numpy.random']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 # -- Project information -----------------------------------------------------
@@ -35,9 +35,9 @@ copyright = '2019, Benardi Nunes'
 author = 'Benardi Nunes'
 
 # The short X.Y version
-version = '0.1'
+version = '0.2.0'
 # The full version, including alpha/beta/rc tags
-release = '0.1.3'
+release = '0.2.0'
 
 
 # -- General configuration ---------------------------------------------------

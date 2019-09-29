@@ -5,12 +5,31 @@
 .. moduleauthor:: Benardi Nunes <benardinunes@gmail.com>
 """
 
-from numpy import log, zeros, vectorize, exp
+from numpy import log, zeros
 
-# sigmoid function
-g = vectorize(lambda x: 1 / (1 + exp(-x)))
+from ml_algorithms.utils import g
+
+
 # predict function
-p = vectorize(lambda x: 1 if x >= 0.5 else 0)
+def p(x, threshold=0.5):
+    """Predicts whether a probability falls into class 1.
+
+    :param x: Probability that example belongs to class 1.
+    :type x: obj
+
+    :param threshold: point above which a probability is deemed of class 1.
+    :type threshold: float
+
+    :returns: Binary value to denote class 1 or 0
+    :rtype: int
+    """
+    prediction = None
+    if x >= threshold:
+        prediction = 1
+    else:
+        prediction = 0
+
+    return prediction
 
 
 def h(X, theta):

@@ -5,10 +5,37 @@
 .. moduleauthor:: Benardi Nunes <benardinunes@gmail.com>
 """
 
-from numpy import zeros, copy, std, mean, float64
+from numpy import zeros, copy, std, mean, float64, exp
 
 
-def gradient_descent(X, y, grad, initial_theta, alpha, num_iters):
+# sigmoid gradient function
+def g(x):
+    """This function applies the sigmoid function on a given value.
+
+    :param x: Input value or object containing value .
+    :type x: obj
+
+    :returns: Sigmoid function at value.
+    :rtype: obj
+    """
+    return 1 / (1 + exp(-x))
+
+
+# sigmoid gradient function
+def g_grad(x):
+    """This function calculates the sigmoid gradient at a given value.
+
+    :param x: Input value or object containing value .
+    :type x: obj
+
+    :returns: Sigmoid gradient at value.
+    :rtype: obj
+    """
+    return g(x) * (1 - g(x))
+
+
+def gradient_descent(X, y, grad, initial_theta,
+                     alpha, num_iters, _lambda=None):
     """This function performs parameter optimization via gradient descent.
 
     :param X: Features' dataset plus bias column.
@@ -29,13 +56,22 @@ def gradient_descent(X, y, grad, initial_theta, alpha, num_iters):
     :param num_iters: Number of times the optimization will be performed.
     :type num_iters: int
 
+    :param _lambda: Weight of the penalty term.
+    :type _lambda: float
+
     :returns: Optimized model parameters.
     :rtype: numpy.array
     """
-    m = len(y)
-    theta = copy(initial_theta)
-    for _ in range(num_iters):
-        theta = theta - alpha * (1 / m) * grad(theta, X, y, m)
+    if _lambda is not None:
+        theta = copy(initial_theta)
+
+        for _ in range(num_iters):
+            theta = theta - alpha * grad(theta, X, y, _lambda)
+
+    else:
+        theta = copy(initial_theta)
+        for _ in range(num_iters):
+            theta = theta - alpha * grad(theta, X, y)
 
     return theta
 
