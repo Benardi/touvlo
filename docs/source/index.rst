@@ -10,17 +10,22 @@ Welcome to ml_algorithms's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-ml_algorithms lin_rg
+Linear Regression routines
 =====================
 .. automodule:: ml_algorithms.lin_rg
    :members:
 
-ml_algorithms lgx_rg
+Logistic Regression routines
 =====================
 .. automodule:: ml_algorithms.lgx_rg
    :members:
 
-ml_algorithms utils
+Neural Network routines
+=====================
+.. automodule:: ml_algorithms.nn
+   :members:
+
+Utils
 =====================
 .. automodule:: ml_algorithms.utils
    :members:
