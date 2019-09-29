@@ -63,17 +63,15 @@ def gradient_descent(X, y, grad, initial_theta,
     :rtype: numpy.array
     """
     if _lambda is not None:
-        m = len(y)
         theta = copy(initial_theta)
 
         for _ in range(num_iters):
-            theta = theta - alpha * (1 / m) * grad(theta, X, y, _lambda)
+            theta = theta - alpha * grad(theta, X, y, _lambda)
 
     else:
-        m = len(y)
         theta = copy(initial_theta)
         for _ in range(num_iters):
-            theta = theta - alpha * (1 / m) * grad(theta, X, y)
+            theta = theta - alpha * grad(theta, X, y)
 
     return theta
 

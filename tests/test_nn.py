@@ -283,8 +283,8 @@ class TestNeuralNetwork(unittest.TestCase):
         for i in range(2, len(theta)):
             nn_params = append(nn_params, theta[i].flatten())
 
-        theta_grad = grad(nn_params, X, y, _lambda, input_layer_size,
-                          num_labels, hidden_layer_size)
+        theta_grad = grad(X, y, nn_params, _lambda, input_layer_size,
+                          hidden_layer_size, num_labels, n_hidden_layers)
 
         theta_grad = unravel_params(theta_grad, input_layer_size,
                                     hidden_layer_size, num_labels,
@@ -327,7 +327,7 @@ class TestNeuralNetwork(unittest.TestCase):
         a[2] = self.zeta
         z[1] = self.iota
 
-        delta = back_propagation(theta, a, z, num_labels, y, n_hidden_layers)
+        delta = back_propagation(y, theta, a, z, num_labels, n_hidden_layers)
 
         assert_allclose(delta[L - 1],
                         array([[0.205846, 0.043161, 0.165794,
@@ -358,7 +358,7 @@ class TestNeuralNetwork(unittest.TestCase):
         a[2] = self.zeta
         z[1] = self.iota
 
-        delta = back_propagation(theta, a, z, num_labels, y, n_hidden_layers)
+        delta = back_propagation(y, theta, a, z, num_labels, n_hidden_layers)
 
         assert_allclose(delta[L - 1],
                         array([[0.32083735, 0.15318951, 0.10016938,
@@ -389,7 +389,7 @@ class TestNeuralNetwork(unittest.TestCase):
         a[2] = self.zeta
         z[1] = self.iota
 
-        delta = back_propagation(theta, a, z, num_labels, y, n_hidden_layers)
+        delta = back_propagation(y, theta, a, z, num_labels, n_hidden_layers)
 
         assert_allclose(delta[L - 1],
                         array([[0.21335, 0.16754, 0.17673, 0.26557, 0.20966],
@@ -429,7 +429,7 @@ class TestNeuralNetwork(unittest.TestCase):
         z[3] = array([[2.5247, 2.4233, 2.1019, 2.4494, 2.6008]])
         z[4] = array([[3.4772, 2.4749, 2.2417]])
 
-        delta = back_propagation(theta, a, z, num_labels, y, n_hidden_layers)
+        delta = back_propagation(y, theta, a, z, num_labels, n_hidden_layers)
 
         assert_allclose(delta[L],
                         array([[0.970032, -0.077638, 0.903935]]),
@@ -453,8 +453,8 @@ class TestNeuralNetwork(unittest.TestCase):
         input_layer_size = 3
         hidden_layer_size = 5
 
-        theta = init_nn_weights(n_hidden_layers, input_layer_size,
-                                hidden_layer_size, num_labels)
+        theta = init_nn_weights(input_layer_size, hidden_layer_size,
+                                num_labels, n_hidden_layers)
 
         self.assertEqual(theta[0].shape, (5, 4))
         self.assertEqual(theta[1].shape, (5, 6))
@@ -467,8 +467,8 @@ class TestNeuralNetwork(unittest.TestCase):
         input_layer_size = 50
         hidden_layer_size = 25
 
-        theta = init_nn_weights(n_hidden_layers, input_layer_size,
-                                hidden_layer_size, num_labels)
+        theta = init_nn_weights(input_layer_size, hidden_layer_size,
+                                num_labels, n_hidden_layers)
 
         self.assertEqual(theta[0].shape, (25, 51))
         self.assertEqual(theta[1].shape, (25, 26))
