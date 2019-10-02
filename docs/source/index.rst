@@ -25,6 +25,11 @@ Neural Network routines
 .. automodule:: ml_algorithms.nn
    :members:
 
+K-means
+=====================
+.. automodule:: ml_algorithms.nn
+   :members:
+
 Utils
 =====================
 .. automodule:: ml_algorithms.utils
