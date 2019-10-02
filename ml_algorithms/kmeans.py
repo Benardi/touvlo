@@ -5,6 +5,17 @@ from numpy.random import permutation
 
 
 def euclidean_dist(p, q):
+    """Calculates Euclidean distance between 2 n-dimensional points.
+
+    :param p: First n-dimensional point.
+    :type p: numpy.array
+
+    :param q: Second n-dimensional point.
+    :type q: numpy.array
+
+    :returns: Distance between 2 points.
+    :rtype: float
+    """
     dist = p - q
     dist = power(dist, 2)
     dist = sum(dist)
@@ -14,7 +25,17 @@ def euclidean_dist(p, q):
 
 
 def find_closest_centroids(X, initial_centroids):
+    """Assigns to each example the indice of the closest centroid.
 
+    :param X: Features' dataset
+    :type X: numpy.array
+
+    :param initial_centroids: List of initialized centroids.
+    :type initial_centroids: list(numpy.array)
+
+    :returns: Column vector of assigned centroids' indices.
+    :rtype: numpy.array
+    """
     m = len(X)
     K = len(initial_centroids)
     idx = zeros((m, 1), dtype=int64)
@@ -34,6 +55,20 @@ def find_closest_centroids(X, initial_centroids):
 
 
 def compute_centroids(X, idx, K):
+    """Computes centroids from the mean of its cluster's members.
+
+    :param X: Features' dataset
+    :type X: numpy.array
+
+    :param idx: Column vector of assigned centroids' indices.
+    :type idx: numpy.array
+
+    :param K: Number of centroids.
+    :type K: int
+
+    :returns: Column vector of newly computed centroids
+    :rtype: numpy.array
+    """
     m, n = X.shape
     centroids = zeros((K, n))
     for k in range(K):
@@ -43,12 +78,45 @@ def compute_centroids(X, idx, K):
 
 
 def init_centroids(X, K):
+    """Computes centroids from the mean of its cluster's members.
+
+    :param X: Features' dataset
+    :type X: numpy.array
+
+    :param idx: Column vector of assigned centroids' indices.
+    :type idx: numpy.array
+
+    :param K: Number of centroids.
+    :type K: int
+
+    :returns: Column vector of centroids randomly picked from dataset
+    :rtype: numpy.array
+    """
     centroids = permutation(X)
     centroids = centroids[0:K, :]
     return centroids
 
 
 def run_kmeans(X, K, max_iters):
+    """Applies kmeans using a single random initialization.
+
+    :param X: Features' dataset
+    :type X: numpy.array
+
+    :param K: Number of centroids.
+    :type K: int
+
+    :param max_iters: Number of times the algorithm will be fitted.
+    :type max_iters: int
+
+    :returns:
+        - centroids -Column vector of centroids
+        - idx -Column vector of assigned centroids' indices.
+
+    :rtype:
+        - centroids (:py:class: numpy.array)
+        - idx (:py:class: numpy.array)
+    """
     centroids = init_centroids(X, K)
 
     for _ in range(max_iters):
@@ -59,6 +127,20 @@ def run_kmeans(X, K, max_iters):
 
 
 def cost_function(X, idx, centroids):
+    """Calculates the cost function for K means.
+
+    :param X: Features' dataset
+    :type X: numpy.array
+
+    :param idx: Column vector of assigned centroids' indices.
+    :type idx: numpy.array
+
+    :returns: Column vector of centroids
+    :rtype: numpy.array
+
+    :returns: Computed cost
+    :rtype: float
+    """
     cost = 0
     m = len(X)
     for i in range(m):
@@ -70,6 +152,28 @@ def cost_function(X, idx, centroids):
 
 
 def run_intensive_kmeans(X, K, max_iters, n_inits):
+    """Applies kmeans using multiple random initializations.
+
+    :param X: Features' dataset
+    :type X: numpy.array
+
+    :param K: Number of centroids.
+    :type K: int
+
+    :param max_iters: Number of times the algorithm will be fitted.
+    :type max_iters: int
+
+    :param n_inits: Number of random initialization.
+    :type n_inits: int
+
+    :returns:
+        - centroids -Column vector of centroids
+        - idx -Column vector of assigned centroids' indices.
+
+    :rtype:
+        - centroids (:py:class: numpy.array)
+        - idx (:py:class: numpy.array)
+    """
     min_cost = inf
     best_idx = None
     best_centroids = None
@@ -84,10 +188,32 @@ def run_intensive_kmeans(X, K, max_iters, n_inits):
 
 
 def elbow_method(X, K_values, max_iters, n_inits):
+    """Calculates the cost for each given K.
+
+    :param X: Features' dataset
+    :type X: numpy.array
+
+    :param K_values: List of possible number of centroids.
+    :type K: list(int)
+
+    :param max_iters: Number of times the algorithm will be fitted.
+    :type max_iters: int
+
+    :param n_inits: Number of random initialization.
+    :type n_inits: int
+
+    :returns:
+        - K_values - List of possible numbers of centroids.
+        - cost_values -Computed cost for each K.
+
+    :rtype:
+        - K_values (:py:class: list(int))
+        - cost_values (:py:class: list(float))
+    """
     cost_values = []
     for K in K_values:
         centroids, idx = run_intensive_kmeans(X, K, max_iters, n_inits)
         cost = cost_function(X, idx, centroids)
         cost_values.append(cost)
 
-    return zip(K_values, cost_values)
+    return K_values, cost_values
