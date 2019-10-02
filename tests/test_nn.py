@@ -1,5 +1,4 @@
-import unittest
-
+import pytest
 from numpy import array, append, empty, zeros, int64
 from numpy.testing import assert_allclose
 
@@ -8,35 +7,51 @@ from ml_algorithms.nn import (feed_forward, init_nn_weights,
                               grad, unravel_params)
 
 
-class TestNeuralNetwork(unittest.TestCase):
-    @classmethod
-    def setUp(cls):
-        cls.omicron = array([[0.35, 0.78, 0.13, 0.90],
-                             [0.27, 0.66, 0.62, 0.20],
-                             [0.64, 0.36, 0.76, 0.33],
-                             [0.00, 0.70, 0.78, 0.85],
-                             [0.55, 0.72, 0.24, 0.43]])
-        cls.omega = array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
-                           [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
-                           [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
-        cls.kappa = array([[0.98, 0.6, 0.18, 0.47, 0.07, 1],
-                           [0.9, 0.38, 0.38, 0.36, 0.52, 0.85],
-                           [0.57, 0.23, 0.41, 0.45, 0.04, 0.24],
-                           [0.46, 0.94, 0.03, 0.06, 0.19, 0.63],
-                           [0.87, 0.4, 0.85, 0.07, 0.81, 0.76]])
-        cls.upsilon = array([[0.9, 0.95, 0.05, 0.05, 0.65, 0.11],
-                             [0.84, 0.57, 0.17, 0.62, 0.06, 0.36],
-                             [0.36, 0.6, 0.54, 0.49, 0.3, 0.03],
-                             [0.11, 0.49, 0.71, 0.43, 0.01, 0.92],
-                             [0.02, 0.01, 0.94, 0.35, 0.69, 0.88]])
-        cls.zeta = array([[0.91672, 0.85806, 0.81484],
-                          [0.89115, 0.83518, 0.78010],
-                          [0.93880, 0.88464, 0.84335]])
-        cls.iota = array([[0.017, 0.422, 0.739, -0.121, 0.479],
-                          [-0.346, 0.018, 0.37, -0.65, 0.148],
-                          [0.781, 0.484, 0.9405, 0.5385, 0.7915]])
+class TestNeuralNetwork:
 
-    def test_cost_function1(self):
+    @pytest.fixture(scope="module")
+    def omicron(self):
+        return array([[0.35, 0.78, 0.13, 0.90],
+                      [0.27, 0.66, 0.62, 0.20],
+                      [0.64, 0.36, 0.76, 0.33],
+                      [0.00, 0.70, 0.78, 0.85],
+                      [0.55, 0.72, 0.24, 0.43]])
+
+    @pytest.fixture(scope="module")
+    def omega(self):
+        return array([[0.86, 0.77, 0.63, 0.35, 0.99, 0.11],
+                      [0.84, 0.74, 0.11, 0.30, 0.49, 0.14],
+                      [0.04, 0.31, 0.17, 0.65, 0.28, 0.99]])
+
+    @pytest.fixture(scope="module")
+    def kappa(self):
+        return array([[0.98, 0.6, 0.18, 0.47, 0.07, 1],
+                      [0.9, 0.38, 0.38, 0.36, 0.52, 0.85],
+                      [0.57, 0.23, 0.41, 0.45, 0.04, 0.24],
+                      [0.46, 0.94, 0.03, 0.06, 0.19, 0.63],
+                      [0.87, 0.4, 0.85, 0.07, 0.81, 0.76]])
+
+    @pytest.fixture(scope="module")
+    def upsilon(self):
+        return array([[0.9, 0.95, 0.05, 0.05, 0.65, 0.11],
+                      [0.84, 0.57, 0.17, 0.62, 0.06, 0.36],
+                      [0.36, 0.6, 0.54, 0.49, 0.3, 0.03],
+                      [0.11, 0.49, 0.71, 0.43, 0.01, 0.92],
+                      [0.02, 0.01, 0.94, 0.35, 0.69, 0.88]])
+
+    @pytest.fixture(scope="module")
+    def zeta(self):
+        return array([[0.91672, 0.85806, 0.81484],
+                      [0.89115, 0.83518, 0.78010],
+                      [0.93880, 0.88464, 0.84335]])
+
+    @pytest.fixture(scope="module")
+    def iota(self):
+        return array([[0.017, 0.422, 0.739, -0.121, 0.479],
+                      [-0.346, 0.018, 0.37, -0.65, 0.148],
+                      [0.781, 0.484, 0.9405, 0.5385, 0.7915]])
+
+    def test_cost_function1(self, omicron, omega):
         X = array([[0.10, 0.30, -0.50], [-0.20, 0, -0.60], [0, 0.20, 0.45]])
         y = array([[0], [2], [1]])
         n_hidden_layers = 1
@@ -44,15 +59,15 @@ class TestNeuralNetwork(unittest.TestCase):
         _lambda = 0
 
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = self.omicron
-        theta[1] = self.omega
+        theta[0] = omicron
+        theta[1] = omega
 
         assert_allclose(cost_function(X, y, theta, _lambda,
                                       num_labels, n_hidden_layers),
                         4.2549,
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_cost_function2(self):
+    def test_cost_function2(self, omicron, omega):
         X = array([[0.10, 0.30, -0.50], [-0.20, 0, -0.60], [0, 0.20, 0.45]])
         y = array([[0], [2], [1]])
         n_hidden_layers = 1
@@ -60,15 +75,15 @@ class TestNeuralNetwork(unittest.TestCase):
         _lambda = 1
 
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = self.omicron
-        theta[1] = self.omega
+        theta[0] = omicron
+        theta[1] = omega
 
         assert_allclose(cost_function(X, y, theta, _lambda,
                                       num_labels, n_hidden_layers),
                         5.9738,
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_cost_function3(self):
+    def test_cost_function3(self, omicron, omega):
         X = array([[0.10, 0.30, -0.50], [-0.20, 0, -0.60], [0, 0.20, 0.45]])
         y = array([[0], [2], [1]])
         n_hidden_layers = 1
@@ -76,15 +91,15 @@ class TestNeuralNetwork(unittest.TestCase):
         _lambda = 10
 
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = self.omicron
-        theta[1] = self.omega
+        theta[0] = omicron
+        theta[1] = omega
 
         assert_allclose(cost_function(X, y, theta, _lambda,
                                       num_labels, n_hidden_layers),
                         21.443,
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_cost_function4(self):
+    def test_cost_function4(self, omicron, omega, kappa, upsilon):
         X = array([[0.10, 0.30, -0.50], [-0.20, 0, -0.60], [0, 0.20, 0.45]])
         y = array([[0], [2], [1]])
         n_hidden_layers = 3
@@ -92,17 +107,17 @@ class TestNeuralNetwork(unittest.TestCase):
         _lambda = 0
 
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = self.omicron
-        theta[1] = self.kappa
-        theta[2] = self.upsilon
-        theta[3] = self.omega
+        theta[0] = omicron
+        theta[1] = kappa
+        theta[2] = upsilon
+        theta[3] = omega
 
         assert_allclose(cost_function(X, y, theta, _lambda,
                                       num_labels, n_hidden_layers),
                         5.6617,
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_cost_function5(self):
+    def test_cost_function5(self, omicron, omega, kappa, upsilon):
         X = array([[0.10, 0.30, -0.50], [-0.20, 0, -0.60], [0, 0.20, 0.45]])
         y = array([[0], [2], [1]])
         n_hidden_layers = 3
@@ -110,17 +125,17 @@ class TestNeuralNetwork(unittest.TestCase):
         _lambda = 1
 
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = self.omicron
-        theta[1] = self.kappa
-        theta[2] = self.upsilon
-        theta[3] = self.omega
+        theta[0] = omicron
+        theta[1] = kappa
+        theta[2] = upsilon
+        theta[3] = omega
 
         assert_allclose(cost_function(X, y, theta, _lambda,
                                       num_labels, n_hidden_layers),
                         9.7443,
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_cost_function6(self):
+    def test_cost_function6(self, omicron, omega, kappa, upsilon):
         X = array([[0.10, 0.30, -0.50], [-0.20, 0, -0.60], [0, 0.20, 0.45]])
         y = array([[0], [2], [1]])
         n_hidden_layers = 3
@@ -128,23 +143,23 @@ class TestNeuralNetwork(unittest.TestCase):
         _lambda = 10
 
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = self.omicron
-        theta[1] = self.kappa
-        theta[2] = self.upsilon
-        theta[3] = self.omega
+        theta[0] = omicron
+        theta[1] = kappa
+        theta[2] = upsilon
+        theta[3] = omega
 
         assert_allclose(cost_function(X, y, theta, _lambda,
                                       num_labels, n_hidden_layers),
                         46.488,
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_feed_forward1(self):
+    def test_feed_forward1(self, omicron, omega):
         n_hidden_layers = 1
         X = array([[1, 0.10, 0.30, -0.50]])
 
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = self.omicron
-        theta[1] = self.omega
+        theta[0] = omicron
+        theta[1] = omega
 
         z, a = feed_forward(X, theta)
 
@@ -165,13 +180,13 @@ class TestNeuralNetwork(unittest.TestCase):
                         array([[0.017, 0.422, 0.739, -0.121, 0.479]]),
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_feed_forward2(self):
+    def test_feed_forward2(self, omicron, omega):
         n_hidden_layers = 1
         X = array([[1, -0.2, 0, -0.6]])
 
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = self.omicron
-        theta[1] = self.omega
+        theta[0] = omicron
+        theta[1] = omega
 
         z, a = feed_forward(X, theta)
 
@@ -192,12 +207,12 @@ class TestNeuralNetwork(unittest.TestCase):
                         array([[-0.346, 0.018, 0.37, -0.65, 0.148]]),
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_feed_forward3(self):
+    def test_feed_forward3(self, omicron, omega):
         n_hidden_layers = 1
         X = array([[1, 0, 0.2, 0.45]])
         theta = empty((n_hidden_layers + 1), dtype=object)
-        theta[0] = self.omicron
-        theta[1] = self.omega
+        theta[0] = omicron
+        theta[1] = omega
 
         z, a = feed_forward(X, theta, n_hidden_layers)
         assert_allclose(a[0],
@@ -220,15 +235,15 @@ class TestNeuralNetwork(unittest.TestCase):
                         array([[2.73048142, 2.03713759, 1.68336723]]),
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_feed_forward4(self):
+    def test_feed_forward4(self, omicron, omega, kappa, upsilon):
         n_hidden_layers = 3
         X = array([[1, 0, 0.2, 0.45]])
         theta = empty((n_hidden_layers + 1), dtype=object)
 
-        theta[0] = self.omicron
-        theta[1] = self.kappa
-        theta[2] = self.upsilon
-        theta[3] = self.omega
+        theta[0] = omicron
+        theta[1] = kappa
+        theta[2] = upsilon
+        theta[3] = omega
 
         z, a = feed_forward(X, theta, n_hidden_layers)
 
@@ -264,7 +279,7 @@ class TestNeuralNetwork(unittest.TestCase):
                         array([[3.4772, 2.4749, 2.2417]]),
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_grad(self):
+    def test_grad(self, omicron, omega):
         X = array([[0.10, 0.30, -0.50], [-0.20, 0, -0.60], [0, 0.20, 0.45]])
         y = array([[0], [2], [1]])
 
@@ -276,8 +291,8 @@ class TestNeuralNetwork(unittest.TestCase):
 
         theta = empty((n_hidden_layers + 1), dtype=object)
 
-        theta[0] = self.omicron
-        theta[1] = self.omega
+        theta[0] = omicron
+        theta[1] = omega
 
         nn_params = append(theta[0].flatten(), theta[1].flatten())
         for i in range(2, len(theta)):
@@ -313,7 +328,7 @@ class TestNeuralNetwork(unittest.TestCase):
                              0.34265, 0.27997, 0.32182]]),
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_back_prop_1(self):
+    def test_back_prop_1(self, omega, zeta, iota):
         num_labels = 3
         y = array([[0]])
         n_hidden_layers = 1
@@ -323,9 +338,9 @@ class TestNeuralNetwork(unittest.TestCase):
         a = empty((n_hidden_layers + 2), dtype=object)
         z = empty((n_hidden_layers + 2), dtype=object)
 
-        theta[1] = self.omega
-        a[2] = self.zeta
-        z[1] = self.iota
+        theta[1] = omega
+        a[2] = zeta
+        z[1] = iota
 
         delta = back_propagation(y, theta, a, z, num_labels, n_hidden_layers)
 
@@ -344,7 +359,7 @@ class TestNeuralNetwork(unittest.TestCase):
                                [-0.061198, 0.884641, 0.843350]]),
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_back_prop_2(self):
+    def test_back_prop_2(self, omega, zeta, iota):
         num_labels = 3
         y = array([[2]])
         n_hidden_layers = 1
@@ -354,9 +369,9 @@ class TestNeuralNetwork(unittest.TestCase):
         a = empty((n_hidden_layers + 2), dtype=object)
         z = empty((n_hidden_layers + 2), dtype=object)
 
-        theta[1] = self.omega
-        a[2] = self.zeta
-        z[1] = self.iota
+        theta[1] = omega
+        a[2] = zeta
+        z[1] = iota
 
         delta = back_propagation(y, theta, a, z, num_labels, n_hidden_layers)
 
@@ -375,7 +390,7 @@ class TestNeuralNetwork(unittest.TestCase):
                                [0.93880, 0.88464, -0.15665]]),
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_back_prop_3(self):
+    def test_back_prop_3(self, omega, zeta, iota):
         num_labels = 3
         y = array([[1]])
         n_hidden_layers = 1
@@ -385,9 +400,9 @@ class TestNeuralNetwork(unittest.TestCase):
         a = empty((n_hidden_layers + 2), dtype=object)
         z = empty((n_hidden_layers + 2), dtype=object)
 
-        theta[1] = self.omega
-        a[2] = self.zeta
-        z[1] = self.iota
+        theta[1] = omega
+        a[2] = zeta
+        z[1] = iota
 
         delta = back_propagation(y, theta, a, z, num_labels, n_hidden_layers)
 
@@ -403,7 +418,7 @@ class TestNeuralNetwork(unittest.TestCase):
                                [0.93880, -0.11536, 0.84335]]),
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_back_prop_4(self):
+    def test_back_prop_4(self, omicron, omega, kappa, upsilon):
         num_labels = 3
         y = array([[1]])
         n_hidden_layers = 3
@@ -413,10 +428,10 @@ class TestNeuralNetwork(unittest.TestCase):
         z = empty((n_hidden_layers + 2), dtype=object)
         a = empty((n_hidden_layers + 2), dtype=object)
 
-        theta[0] = self.omicron
-        theta[1] = self.kappa
-        theta[2] = self.upsilon
-        theta[3] = self.omega
+        theta[0] = omicron
+        theta[1] = kappa
+        theta[2] = upsilon
+        theta[3] = omega
 
         a[0] = array([[1, 0, 0.2, 0.45]])
         a[1] = array([[1, 0.6859, 0.61869, 0.7192, 0.63146, 0.68815]])
@@ -456,10 +471,10 @@ class TestNeuralNetwork(unittest.TestCase):
         theta = init_nn_weights(input_layer_size, hidden_layer_size,
                                 num_labels, n_hidden_layers)
 
-        self.assertEqual(theta[0].shape, (5, 4))
-        self.assertEqual(theta[1].shape, (5, 6))
-        self.assertEqual(theta[2].shape, (3, 6))
-        self.assertEqual(len(theta), (n_hidden_layers + 1))
+        assert theta[0].shape == (5, 4)
+        assert theta[1].shape == (5, 6)
+        assert theta[2].shape == (3, 6)
+        assert len(theta) == n_hidden_layers + 1
 
     def test_init_nn_weights2(self):
         num_labels = 10
@@ -470,13 +485,13 @@ class TestNeuralNetwork(unittest.TestCase):
         theta = init_nn_weights(input_layer_size, hidden_layer_size,
                                 num_labels, n_hidden_layers)
 
-        self.assertEqual(theta[0].shape, (25, 51))
-        self.assertEqual(theta[1].shape, (25, 26))
-        self.assertEqual(theta[2].shape, (25, 26))
-        self.assertEqual(theta[3].shape, (25, 26))
-        self.assertEqual(theta[4].shape, (25, 26))
-        self.assertEqual(theta[5].shape, (10, 26))
-        self.assertEqual(len(theta), (n_hidden_layers + 1))
+        assert theta[0].shape == (25, 51)
+        assert theta[1].shape == (25, 26)
+        assert theta[2].shape == (25, 26)
+        assert theta[3].shape == (25, 26)
+        assert theta[4].shape == (25, 26)
+        assert theta[5].shape == (10, 26)
+        assert len(theta) == n_hidden_layers + 1
 
     def test_unravel_params1(self):
         num_labels = 3
@@ -495,9 +510,9 @@ class TestNeuralNetwork(unittest.TestCase):
         inflated = unravel_params(flat, input_layer_size, hidden_layer_size,
                                   num_labels, n_hidden_layers)
 
-        self.assertEqual(inflated[0].shape, theta[0].shape)
-        self.assertEqual(inflated[1].shape, theta[1].shape)
-        self.assertEqual(len(inflated), (n_hidden_layers + 1))
+        assert inflated[0].shape == theta[0].shape
+        assert inflated[1].shape == theta[1].shape
+        assert len(inflated) == n_hidden_layers + 1
 
     def test_unravel_params2(self):
         num_labels = 3
@@ -519,10 +534,10 @@ class TestNeuralNetwork(unittest.TestCase):
         inflated = unravel_params(flat, input_layer_size, hidden_layer_size,
                                   num_labels, n_hidden_layers)
 
-        self.assertEqual(inflated[0].shape, theta[0].shape)
-        self.assertEqual(inflated[1].shape, theta[1].shape)
-        self.assertEqual(inflated[2].shape, theta[2].shape)
-        self.assertEqual(len(inflated), (n_hidden_layers + 1))
+        assert inflated[0].shape == theta[0].shape
+        assert inflated[1].shape == theta[1].shape
+        assert inflated[2].shape == theta[2].shape
+        assert len(inflated) == n_hidden_layers + 1
 
     def test_unravel_params3(self):
         num_labels = 10
@@ -553,10 +568,10 @@ class TestNeuralNetwork(unittest.TestCase):
         inflated = unravel_params(flat, input_layer_size, hidden_layer_size,
                                   num_labels, n_hidden_layers)
 
-        self.assertEqual(inflated[0].shape, theta[0].shape)
-        self.assertEqual(inflated[1].shape, theta[1].shape)
-        self.assertEqual(inflated[2].shape, theta[2].shape)
-        self.assertEqual(inflated[3].shape, theta[3].shape)
-        self.assertEqual(inflated[4].shape, theta[4].shape)
-        self.assertEqual(inflated[5].shape, theta[5].shape)
-        self.assertEqual(len(inflated), (n_hidden_layers + 1))
+        assert inflated[0].shape == theta[0].shape
+        assert inflated[1].shape == theta[1].shape
+        assert inflated[2].shape == theta[2].shape
+        assert inflated[3].shape == theta[3].shape
+        assert inflated[4].shape == theta[4].shape
+        assert inflated[5].shape == theta[5].shape
+        assert len(inflated) == n_hidden_layers + 1

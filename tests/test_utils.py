@@ -1,40 +1,39 @@
 from math import radians
-import unittest
 
+import pytest
 from numpy import array, cos, sin, exp
 from numpy.testing import assert_allclose
 
 from ml_algorithms.utils import numerical_grad, g_grad
 
 
-class TestLogisticRegression(unittest.TestCase):
+class TestLogisticRegression:
 
-    def test_numeric_grad_1(self):
+    @pytest.fixture(scope="module")
+    def err(self):
+        return 0.0001
 
+    def test_numeric_grad_1(self, err):
         def J(x):
             return sum(3 * (x ** 2))
 
         theta = array([[0], [4], [10]])
-        err = 0.0001
 
         assert_allclose(array([[0], [24], [60]]),
                         numerical_grad(J, theta, err),
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_numeric_grad_2(self):
-
+    def test_numeric_grad_2(self, err):
         def J(x):
             return sum(1 / x)
 
         theta = array([[5], [8], [20]])
-        err = 0.0001
 
         assert_allclose(array([[-0.04], [-0.015625], [-0.0025]]),
                         numerical_grad(J, theta, err),
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_numeric_grad_3(self):
-
+    def test_numeric_grad_3(self, err):
         def J(x):
             return sum(cos(x))
 
@@ -42,7 +41,6 @@ class TestLogisticRegression(unittest.TestCase):
                        [radians(45)],
                        [radians(60)],
                        [radians(90)]])
-        err = 0.0001
 
         assert_allclose(array([[-sin(radians(30))],
                                [-sin(radians(45))],
@@ -51,13 +49,11 @@ class TestLogisticRegression(unittest.TestCase):
                         numerical_grad(J, theta, err),
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_numeric_grad_4(self):
-
+    def test_numeric_grad_4(self, err):
         def J(x):
             return sum(exp(x))
 
         theta = array([[-10], [-1], [0], [1], [10]])
-        err = 0.0001
 
         assert_allclose(array([[exp(-10)],
                                [exp(-1)],
@@ -67,13 +63,11 @@ class TestLogisticRegression(unittest.TestCase):
                         numerical_grad(J, theta, err),
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_numeric_grad_5(self):
-
+    def test_numeric_grad_5(self, err):
         def J(x):
             return sum(7 * x)
 
         theta = array([[-10], [-1], [0], [1], [10]])
-        err = 0.0001
 
         assert_allclose(array([[7],
                                [7],

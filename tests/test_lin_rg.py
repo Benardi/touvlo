@@ -1,7 +1,6 @@
-import unittest
 import os
 
-
+import pytest
 from numpy.testing import assert_allclose
 from numpy import ones, zeros, float64, array, append, genfromtxt
 
@@ -14,19 +13,27 @@ TESTDATA1 = os.path.join(os.path.dirname(__file__), 'data1.csv')
 TESTDATA2 = os.path.join(os.path.dirname(__file__), 'data2.csv')
 
 
-class TestLinearRegression(unittest.TestCase):
+class TestLinearRegression:
 
-    @classmethod
-    def setUpClass(cls):
-        cls.data1 = genfromtxt(TESTDATA1, delimiter=',')
-        cls.data2 = genfromtxt(TESTDATA2, delimiter=',')
-        cls.err = 1e-4
+    @pytest.fixture(scope="module")
+    def data1(self):
+        return genfromtxt(TESTDATA1, delimiter=',')
+
+    @pytest.fixture(scope="module")
+    def data2(self):
+        return genfromtxt(TESTDATA2, delimiter=',')
+
+    @pytest.fixture(scope="module")
+    def err(self):
+        return 1e-4
+
 
 # NORMAL EQUATION
 
-    def test_normal_eqn_data1(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_normal_eqn_data1(self, data1):
+
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=int)
         X = append(intercept, X, axis=1)
@@ -35,9 +42,9 @@ class TestLinearRegression(unittest.TestCase):
                         normal_eqn(X, y),
                         rtol=0, atol=0.001)
 
-    def test_normal_eqn_data2(self):
-        y = self.data2[:, -1:]
-        X = self.data2[:, :-1]
+    def test_normal_eqn_data2(self, data2):
+        y = data2[:, -1:]
+        X = data2[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=int)
         X = append(intercept, X, axis=1)
@@ -48,9 +55,9 @@ class TestLinearRegression(unittest.TestCase):
 
 # COST FUNCTION
 
-    def test_cost_func_data1_1(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_cost_func_data1_1(self, data1):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -60,9 +67,9 @@ class TestLinearRegression(unittest.TestCase):
                         cost_func(X, y, theta),
                         rtol=0, atol=0.001)
 
-    def test_cost_func_data1_2(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_cost_func_data1_2(self, data1):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -72,9 +79,9 @@ class TestLinearRegression(unittest.TestCase):
                         cost_func(X, y, theta),
                         rtol=0, atol=0.001)
 
-    def test_cost_func_data1_3(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_cost_func_data1_3(self, data1):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -84,9 +91,9 @@ class TestLinearRegression(unittest.TestCase):
                         cost_func(X, y, theta),
                         rtol=0, atol=0.001)
 
-    def test_cost_func_data2_1(self):
-        y = self.data2[:, -1:]
-        X = self.data2[:, :-1]
+    def test_cost_func_data2_1(self, data2):
+        y = data2[:, -1:]
+        X = data2[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -96,9 +103,9 @@ class TestLinearRegression(unittest.TestCase):
                         cost_func(X, y, theta),
                         rtol=0, atol=0.001)
 
-    def test_cost_func_data2_2(self):
-        y = self.data2[:, -1:]
-        X = self.data2[:, :-1]
+    def test_cost_func_data2_2(self, data2):
+        y = data2[:, -1:]
+        X = data2[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -108,9 +115,9 @@ class TestLinearRegression(unittest.TestCase):
                         cost_func(X, y, theta),
                         rtol=0, atol=0.001)
 
-    def test_cost_func_data2_3(self):
-        y = self.data2[:, -1:]
-        X = self.data2[:, :-1]
+    def test_cost_func_data2_3(self, data2):
+        y = data2[:, -1:]
+        X = data2[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -122,9 +129,9 @@ class TestLinearRegression(unittest.TestCase):
 
 # REGULARIZED COST FUNCTION
 
-    def test_reg_cost_func_data1_1(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_reg_cost_func_data1_1(self, data1):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -135,9 +142,9 @@ class TestLinearRegression(unittest.TestCase):
                         reg_cost_func(X, y, theta, _lambda),
                         rtol=0, atol=0.001)
 
-    def test_reg_cost_func_data1_2(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_reg_cost_func_data1_2(self, data1):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -148,9 +155,9 @@ class TestLinearRegression(unittest.TestCase):
                         reg_cost_func(X, y, theta, _lambda),
                         rtol=0, atol=0.001)
 
-    def test_reg_cost_func_data1_3(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_reg_cost_func_data1_3(self, data1):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -161,9 +168,9 @@ class TestLinearRegression(unittest.TestCase):
                         reg_cost_func(X, y, theta, _lambda),
                         rtol=0, atol=0.001)
 
-    def test_reg_cost_func_data2_1(self):
-        y = self.data2[:, -1:]
-        X = self.data2[:, :-1]
+    def test_reg_cost_func_data2_1(self, data2):
+        y = data2[:, -1:]
+        X = data2[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -174,9 +181,9 @@ class TestLinearRegression(unittest.TestCase):
                         reg_cost_func(X, y, theta, _lambda),
                         rtol=0, atol=0.001)
 
-    def test_reg_cost_func_data2_2(self):
-        y = self.data2[:, -1:]
-        X = self.data2[:, :-1]
+    def test_reg_cost_func_data2_2(self, data2):
+        y = data2[:, -1:]
+        X = data2[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -187,9 +194,9 @@ class TestLinearRegression(unittest.TestCase):
                         reg_cost_func(X, y, theta, _lambda),
                         rtol=0, atol=0.001)
 
-    def test_reg_cost_func_data2_3(self):
-        y = self.data2[:, -1:]
-        X = self.data2[:, :-1]
+    def test_reg_cost_func_data2_3(self, data2):
+        y = data2[:, -1:]
+        X = data2[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -202,9 +209,9 @@ class TestLinearRegression(unittest.TestCase):
 
 # GRADIENT
 
-    def test_grad_data1_1(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_grad_data1_1(self, data1):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -214,9 +221,9 @@ class TestLinearRegression(unittest.TestCase):
                         grad(X, y, theta),
                         rtol=0, atol=0.001)
 
-    def test_grad_data1_2(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_grad_data1_2(self, data1):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -226,9 +233,9 @@ class TestLinearRegression(unittest.TestCase):
                         grad(X, y, theta),
                         rtol=0, atol=0.001)
 
-    def test_grad_data1_3(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_grad_data1_3(self, data1):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -238,9 +245,9 @@ class TestLinearRegression(unittest.TestCase):
                         grad(X, y, theta),
                         rtol=0, atol=0.001)
 
-    def test_grad_data1_4(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_grad_data1_4(self, data1, err):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -250,12 +257,12 @@ class TestLinearRegression(unittest.TestCase):
             return cost_func(X, y, theta)
 
         assert_allclose(grad(X, y, theta),
-                        numerical_grad(J, theta, self.err),
+                        numerical_grad(J, theta, err),
                         rtol=0, atol=0.001)
 
-    def test_grad_data1_5(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_grad_data1_5(self, data1, err):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -265,12 +272,12 @@ class TestLinearRegression(unittest.TestCase):
             return cost_func(X, y, theta)
 
         assert_allclose(grad(X, y, theta),
-                        numerical_grad(J, theta, self.err),
+                        numerical_grad(J, theta, err),
                         rtol=0, atol=0.001)
 
-    def test_grad_data1_6(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_grad_data1_6(self, data1, err):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -280,12 +287,12 @@ class TestLinearRegression(unittest.TestCase):
             return cost_func(X, y, theta)
 
         assert_allclose(grad(X, y, theta),
-                        numerical_grad(J, theta, self.err),
+                        numerical_grad(J, theta, err),
                         rtol=0, atol=0.001)
 
-    def test_grad_data2_1(self):
-        y = self.data2[:, -1:]
-        X = self.data2[:, :-1]
+    def test_grad_data2_1(self, data2):
+        y = data2[:, -1:]
+        X = data2[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -295,9 +302,9 @@ class TestLinearRegression(unittest.TestCase):
                         grad(X, y, theta),
                         rtol=0, atol=0.001)
 
-    def test_grad_data2_2(self):
-        y = self.data2[:, -1:]
-        X = self.data2[:, :-1]
+    def test_grad_data2_2(self, data2):
+        y = data2[:, -1:]
+        X = data2[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -307,9 +314,9 @@ class TestLinearRegression(unittest.TestCase):
                         grad(X, y, theta),
                         rtol=0, atol=0.001)
 
-    def test_grad_data2_3(self):
-        y = self.data2[:, -1:]
-        X = self.data2[:, :-1]
+    def test_grad_data2_3(self, data2):
+        y = data2[:, -1:]
+        X = data2[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -321,9 +328,9 @@ class TestLinearRegression(unittest.TestCase):
 
 # REGULARIZED GRADIENT
 
-    def test_reg_grad_data1_1(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_reg_grad_data1_1(self, data1):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -334,9 +341,9 @@ class TestLinearRegression(unittest.TestCase):
                         reg_grad(X, y, theta, _lambda),
                         rtol=0, atol=0.001)
 
-    def test_reg_grad_data1_2(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_reg_grad_data1_2(self, data1):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -347,9 +354,9 @@ class TestLinearRegression(unittest.TestCase):
                         reg_grad(X, y, theta, _lambda),
                         rtol=0, atol=0.001)
 
-    def test_reg_grad_data1_3(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_reg_grad_data1_3(self, data1):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -360,9 +367,9 @@ class TestLinearRegression(unittest.TestCase):
                         reg_grad(X, y, theta, _lambda),
                         rtol=0, atol=0.001)
 
-    def test_reg_grad_data1_4(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_reg_grad_data1_4(self, data1, err):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -373,12 +380,12 @@ class TestLinearRegression(unittest.TestCase):
             return reg_cost_func(X, y, theta, _lambda)
 
         assert_allclose(reg_grad(X, y, theta, _lambda),
-                        numerical_grad(J, theta, self.err),
+                        numerical_grad(J, theta, err),
                         rtol=0, atol=0.001)
 
-    def test_reg_grad_data1_5(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_reg_grad_data1_5(self, data1, err):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -389,12 +396,12 @@ class TestLinearRegression(unittest.TestCase):
             return reg_cost_func(X, y, theta, _lambda)
 
         assert_allclose(reg_grad(X, y, theta, _lambda),
-                        numerical_grad(J, theta, self.err),
+                        numerical_grad(J, theta, err),
                         rtol=0, atol=0.001)
 
-    def test_reg_grad_data1_6(self):
-        y = self.data1[:, -1:]
-        X = self.data1[:, :-1]
+    def test_reg_grad_data1_6(self, data1, err):
+        y = data1[:, -1:]
+        X = data1[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -405,12 +412,12 @@ class TestLinearRegression(unittest.TestCase):
             return reg_cost_func(X, y, theta, _lambda)
 
         assert_allclose(reg_grad(X, y, theta, _lambda),
-                        numerical_grad(J, theta, self.err),
+                        numerical_grad(J, theta, err),
                         rtol=0, atol=0.001)
 
-    def test_reg_grad_data2_1(self):
-        y = self.data2[:, -1:]
-        X = self.data2[:, :-1]
+    def test_reg_grad_data2_1(self, data2):
+        y = data2[:, -1:]
+        X = data2[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -421,9 +428,9 @@ class TestLinearRegression(unittest.TestCase):
                         reg_grad(X, y, theta, _lambda),
                         rtol=0, atol=0.001)
 
-    def test_reg_grad_data2_2(self):
-        y = self.data2[:, -1:]
-        X = self.data2[:, :-1]
+    def test_reg_grad_data2_2(self, data2):
+        y = data2[:, -1:]
+        X = data2[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -434,9 +441,9 @@ class TestLinearRegression(unittest.TestCase):
                         reg_grad(X, y, theta, _lambda),
                         rtol=0, atol=0.001)
 
-    def test_reg_grad_data2_3(self):
-        y = self.data2[:, -1:]
-        X = self.data2[:, :-1]
+    def test_reg_grad_data2_3(self, data2):
+        y = data2[:, -1:]
+        X = data2[:, :-1]
         m, n = X.shape
         intercept = ones((m, 1), dtype=float64)
         X = append(intercept, X, axis=1)
@@ -540,7 +547,3 @@ class TestLinearRegression(unittest.TestCase):
         assert_allclose([[-0.2]],
                         h(X, theta),
                         rtol=0, atol=0.001)
-
-
-if __name__ == '__main__':
-    unittest.main()
