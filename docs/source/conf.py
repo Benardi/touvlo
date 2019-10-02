@@ -30,7 +30,7 @@ sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 # -- Project information -----------------------------------------------------
 
-project = 'ml_algorithms'
+project = 'touvlo'
 copyright = '2019, Benardi Nunes'
 author = 'Benardi Nunes'
 
@@ -114,7 +114,7 @@ def setup(app):
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'MLAlgorithmsdoc'
+htmlhelp_basename = 'Touvlodoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -134,7 +134,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-            (master_doc, 'ml_algorithms.tex', 'ML Algorithms Documentation',
+            (master_doc, 'touvlo.tex', 'Touvlo Documentation',
                      'Benardi Nunes', 'manual'),
             ]
 
@@ -144,7 +144,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-            (master_doc, 'mlalgorithms', 'ML Algorithms Documentation',
+            (master_doc, 'touvlo', 'Touvlo Documentation',
                      [author], 1)
             ]
 
@@ -155,8 +155,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, 'MLAlgorithms', 'ML Algorithms Documentation',
-   author, 'MLAlgorithms', 'Machine Learning algorithms and models implemented from scratch.',
+  (master_doc, 'Touvlo', 'Touvlo Documentation',
+   author, 'Touvlo', 'Machine Learning algorithms and models implemented from scratch, provided block by block.',
    'Miscellaneous'),
             ]
 

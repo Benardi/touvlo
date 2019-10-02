@@ -1,11 +1,11 @@
-[![Build Status](https://api.travis-ci.org/Benardi/ml_algorithms.svg?branch=master)](https://travis-ci.org/Benardi/ml_algorithms)
-[![Documentation Status](https://readthedocs.org/projects/ml-algorithms/badge/?version=latest)](https://ml-algorithms.readthedocs.io/en/latest/?badge=latest)
+[![Build Status](https://api.travis-ci.org/Benardi/touvlo.svg?branch=master)](https://travis-ci.org/Benardi/touvlo)
+[![Documentation Status](https://readthedocs.org/projects/touvlo/badge/?version=latest)](https://touvlo.readthedocs.io/en/latest/?badge=latest)
 [![Python 3.x](https://img.shields.io/badge/python-3.x-blue.svg)](https://www.python.org/downloads/release/python-370/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# Machine Learning Algorithms
+# Touvlo
 
-This project provides Machine Learning algorithms and models implemented from scratch. These implementation aren't meant to be performatic, but instead to expose the logic of the components that make the Machine Learning models possible. For this reason the routines employed by the models are also provided and tested separately.
+This project provides Machine Learning algorithms and models implemented from scratch. These implementation aren't meant to be performatic, but instead to expose the logic of the components/blocks that make the Machine Learning models possible. For this reason the routines employed by the models are also provided and tested separately.
 
 ## Getting Started
 
@@ -35,9 +35,9 @@ sudo apt install tox
 Clone and enter the directory using cd
 
 ```
-git clone https://github.com/Benardi/ml_algorithms
+git clone https://github.com/Benardi/touvlo
 
-cd ml_algorithms 
+cd touvlo 
 ```
 
 Use venv to keep dependencies tidy, but you may opt not to use it.
@@ -83,15 +83,19 @@ To execute only the coding style tests, run
 tox -e pep8
 ``` 
 
+## Contributing
+
+Please read [CONTRIBUTING.md](https://github.com/Benardi/touvlo/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
 ## Versioning
 
-We use [Git](https://git-scm.com) for versioning. For the versions available, see the [tags on this repository](https://github.com/Benardi/ml_algorithms/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/Benardi/touvlo/tags). 
 
 ## Authors
 
 * **Benardi Nunes** - *Initial work* - [Benardi](https://github.com/Benardi)
 
-See also the list of [contributors](https://github.com/Benardi/ml_algorithms/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/Benardi/touvlo/contributors) who participated in this project.
 
 ## License
 

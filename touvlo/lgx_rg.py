@@ -7,7 +7,7 @@
 
 from numpy import log, zeros
 
-from ml_algorithms.utils import g
+from touvlo.utils import g
 
 
 # predict function

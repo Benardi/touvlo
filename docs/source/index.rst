@@ -1,9 +1,9 @@
-.. ml_algorithms documentation master file, created by
+.. touvlo documentation master file, created by
    sphinx-quickstart on Sun Sep  8 18:42:47 2019.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to ml_algorithms's documentation!
+Welcome to touvlo's documentation!
 =========================================
 
 .. toctree::
@@ -12,27 +12,27 @@ Welcome to ml_algorithms's documentation!
 
 Linear Regression routines
 =====================
-.. automodule:: ml_algorithms.lin_rg
+.. automodule:: touvlo.lin_rg
    :members:
 
 Logistic Regression routines
 =====================
-.. automodule:: ml_algorithms.lgx_rg
+.. automodule:: touvlo.lgx_rg
    :members:
 
 Neural Network routines
 =====================
-.. automodule:: ml_algorithms.nn
+.. automodule:: touvlo.nn
    :members:
 
 K-means
 =====================
-.. automodule:: ml_algorithms.nn
+.. automodule:: touvlo.nn
    :members:
 
 Utils
 =====================
-.. automodule:: ml_algorithms.utils
+.. automodule:: touvlo.utils
    :members:
 
 

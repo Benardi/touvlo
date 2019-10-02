@@ -4,7 +4,7 @@ import pytest
 from numpy import array, cos, sin, exp
 from numpy.testing import assert_allclose
 
-from ml_algorithms.utils import numerical_grad, g_grad
+from touvlo.utils import numerical_grad, g_grad
 
 
 class TestLogisticRegression:

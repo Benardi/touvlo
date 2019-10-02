@@ -1,33 +1,32 @@
-import unittest
-
+import pytest
 from numpy import array
 from numpy.testing import assert_allclose, assert_almost_equal
 
-from ml_algorithms.kmeans import (find_closest_centroids, euclidean_dist,
-                                  compute_centroids, init_centroids,
-                                  cost_function, run_kmeans,
-                                  run_intensive_kmeans)
+from touvlo.kmeans import (find_closest_centroids, euclidean_dist,
+                           compute_centroids, init_centroids,
+                           cost_function, run_kmeans,
+                           run_intensive_kmeans)
 
 
-class Kmeans(unittest.TestCase):
+class TestKmeans:
 
-    def test_euclidean_dist1(self):
-        p = array([1, 7, 4, 2, -1])
-        q = array([8, 6, 3, 4, 10])
+    @pytest.fixture
+    def p(self):
+        return array([1, 7, 4, 2, -1])
+
+    @pytest.fixture
+    def q(self):
+        return array([8, 6, 3, 4, 10])
+
+    def test_euclidean_dist1(self, p, q):
         dist = euclidean_dist(p, q)
         assert_almost_equal(dist, 13.2665, decimal=4)
 
-    def test_euclidean_dist2(self):
-        p = array([1, 7, 4, 2, -1])
-        q = array([8, 6, 3, 4, 10])
+    def test_euclidean_dist2(self, p, q):
+        assert euclidean_dist(p, q) == euclidean_dist(q, p)
 
-        self.assertEqual(euclidean_dist(p, q),
-                         euclidean_dist(q, p))
-
-    def test_euclidean_dist3(self):
-        p = array([1, 7, 4, 2, -1])
-
-        self.assertEqual(euclidean_dist(p, p), 0)
+    def test_euclidean_dist3(self, p):
+        assert euclidean_dist(p, p) == 0
 
     def test_find_closest_centroids1(self):
         X = array([[1.8421, 4.6076], [5.6586, 4.8000], [6.3526, 3.2909],
@@ -90,12 +89,12 @@ class Kmeans(unittest.TestCase):
         K = 5
         initial_centroids = init_centroids(X, K)
 
-        self.assertTrue(len(initial_centroids) == K)
-        self.assertTrue(initial_centroids[0] in X)
-        self.assertTrue(initial_centroids[1] in X)
-        self.assertTrue(initial_centroids[2] in X)
-        self.assertTrue(initial_centroids[3] in X)
-        self.assertTrue(initial_centroids[4] in X)
+        assert len(initial_centroids) == K
+        assert initial_centroids[0] in X
+        assert initial_centroids[1] in X
+        assert initial_centroids[2] in X
+        assert initial_centroids[3] in X
+        assert initial_centroids[4] in X
 
     def test_init_centroids2(self):
         X = array([[5.89562, 2.89844], [5.61754, 2.59751], [5.63176, 3.04759],
@@ -105,10 +104,10 @@ class Kmeans(unittest.TestCase):
         K = 3
         initial_centroids = init_centroids(X, K)
 
-        self.assertTrue(len(initial_centroids) == K)
-        self.assertTrue(initial_centroids[0] in X)
-        self.assertTrue(initial_centroids[1] in X)
-        self.assertTrue(initial_centroids[2] in X)
+        assert len(initial_centroids) == K
+        assert initial_centroids[0] in X
+        assert initial_centroids[1] in X
+        assert initial_centroids[2] in X
 
     def test_cost_function1(self):
         centroids = array([[0, 0, 0], [1, 1, 0], [0, 1, 1]])
@@ -137,9 +136,9 @@ class Kmeans(unittest.TestCase):
         K = 6
         centroids, idx = run_kmeans(X, K, max_iters)
 
-        self.assertTrue(all(idx < K))
-        self.assertTrue(all(idx > -1))
-        self.assertTrue(len(centroids) == K)
+        assert all(idx < K)
+        assert all(idx > -1)
+        assert len(centroids) == K
 
     def test_run_kmeans2(self):
         X = array([[5.89562, 2.89844], [5.61754, 2.59751], [5.63176, 3.04759],
@@ -150,9 +149,9 @@ class Kmeans(unittest.TestCase):
         K = 3
         centroids, idx = run_kmeans(X, K, max_iters)
 
-        self.assertTrue(all(idx < K))
-        self.assertTrue(all(idx > -1))
-        self.assertTrue(len(centroids) == K)
+        assert all(idx < K)
+        assert all(idx > -1)
+        assert len(centroids) == K
 
     def test_run_intensive_kmeans1(self):
         X = array([[1.8421, 4.6076], [5.6586, 4.8000], [6.3526, 3.2909],
@@ -164,9 +163,9 @@ class Kmeans(unittest.TestCase):
         K = 4
         centroids, idx = run_intensive_kmeans(X, K, max_iters, n_inits)
 
-        self.assertTrue(all(idx < K))
-        self.assertTrue(all(idx > -1))
-        self.assertTrue(len(centroids) == K)
+        assert all(idx < K)
+        assert all(idx > -1)
+        assert len(centroids) == K
 
     def test_run_intensive_kmeans2(self):
         X = array([[5.89562, 2.89844], [5.61754, 2.59751], [5.63176, 3.04759],
@@ -178,6 +177,6 @@ class Kmeans(unittest.TestCase):
         K = 3
         centroids, idx = run_intensive_kmeans(X, K, max_iters, n_inits)
 
-        self.assertTrue(all(idx < K))
-        self.assertTrue(all(idx > -1))
-        self.assertTrue(len(centroids) == K)
+        assert all(idx < K)
+        assert all(idx > -1)
+        assert len(centroids) == K

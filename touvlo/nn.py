@@ -11,7 +11,7 @@ from numpy.random import uniform
 from numpy import (float64, ones, append, sum, dot, log,
                    power, zeros, reshape, empty)
 
-from ml_algorithms.utils import g, g_grad
+from touvlo.utils import g, g_grad
 
 
 def cost_function(X, y, theta, _lambda, num_labels, n_hidden_layers=1):
