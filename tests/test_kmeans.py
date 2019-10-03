@@ -2,10 +2,10 @@ import pytest
 from numpy import array
 from numpy.testing import assert_allclose, assert_almost_equal
 
-from touvlo.kmeans import (find_closest_centroids, euclidean_dist,
-                           compute_centroids, init_centroids,
-                           cost_function, run_kmeans,
-                           run_intensive_kmeans)
+from touvlo.unsupv.kmeans import (find_closest_centroids, euclidean_dist,
+                                  compute_centroids, init_centroids,
+                                  cost_function, run_kmeans,
+                                  run_intensive_kmeans)
 
 
 class TestKmeans:

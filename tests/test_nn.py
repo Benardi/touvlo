@@ -2,8 +2,8 @@ import pytest
 from numpy import array, append, empty, zeros, int64
 from numpy.testing import assert_allclose
 
-from touvlo.nn import (feed_forward, init_nn_weights, back_propagation,
-                       cost_function, grad, unravel_params)
+from touvlo.supv.nn import (feed_forward, init_nn_weights, back_propagation,
+                            cost_function, grad, unravel_params)
 
 
 class TestNeuralNetwork:
