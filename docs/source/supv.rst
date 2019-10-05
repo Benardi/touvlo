@@ -12,7 +12,7 @@ Logistic Regression routines
 .. automodule:: touvlo.supv.lgx_rg
    :members:
 
-Neural Network routines
-=======================
-.. automodule:: touvlo.supv.nn
+Classification Neural Network routines
+========================================
+.. automodule:: touvlo.supv.nn_clsf
    :members:
