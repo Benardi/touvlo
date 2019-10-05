@@ -1,3 +1,10 @@
+"""
+.. module:: kmeans
+    :synopsis: Provides routines to apply K-means clustering.
+
+.. moduleauthor:: Benardi Nunes <benardinunes@gmail.com>
+"""
+
 from math import inf, sqrt
 
 from numpy import zeros, int64, power, sum, mean
