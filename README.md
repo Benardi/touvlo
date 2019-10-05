@@ -87,6 +87,10 @@ tox -e pep8
 
 Please read [CONTRIBUTING.md](https://github.com/Benardi/touvlo/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
+* Check [pull_request_template.md](https://github.com/Benardi/touvlo/blob/master/pull_request_template.md) for the expected format of a pull request
+
+* Check [issue_template.md](https://github.com/Benardi/touvlo/blob/master/issue_template.md) for the expected format of an issue
+
 ## Versioning
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/Benardi/touvlo/tags). 
