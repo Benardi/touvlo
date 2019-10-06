@@ -5,7 +5,7 @@
 .. moduleauthor:: Benardi Nunes <benardinunes@gmail.com>
 """
 
-from numpy import zeros, copy, std, mean, float64, exp
+from numpy import zeros, copy, std, mean, float64, exp, seterr
 
 
 # sigmoid gradient function
@@ -120,8 +120,9 @@ def feature_normalize(X):
         - mu (:py:class: numpy.array)
         - sigma (:py:class: numpy.array)
     """
-    mu = mean(X)
-    sigma = std(X)
+    seterr(divide='ignore', invalid='ignore')
+    mu = mean(X, axis=0)
+    sigma = std(X, axis=0, ddof=1)
 
     X_norm = (X - mu) / sigma
 
