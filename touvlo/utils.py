@@ -35,7 +35,7 @@ def g_grad(x):
 
 
 def gradient_descent(X, y, grad, initial_theta,
-                     alpha, num_iters, _lambda=None):
+                     alpha, num_iters, **kwargs):
     """This function performs parameter optimization via gradient descent.
 
     :param X: Features' dataset plus bias column.
@@ -56,22 +56,12 @@ def gradient_descent(X, y, grad, initial_theta,
     :param num_iters: Number of times the optimization will be performed.
     :type num_iters: int
 
-    :param _lambda: Weight of the penalty term.
-    :type _lambda: float
-
     :returns: Optimized model parameters.
     :rtype: numpy.array
     """
-    if _lambda is not None:
-        theta = copy(initial_theta)
-
-        for _ in range(num_iters):
-            theta = theta - alpha * grad(theta, X, y, _lambda)
-
-    else:
-        theta = copy(initial_theta)
-        for _ in range(num_iters):
-            theta = theta - alpha * grad(theta, X, y)
+    theta = copy(initial_theta)
+    for _ in range(num_iters):
+        theta = theta - alpha * grad(X, y, theta, **kwargs)
 
     return theta
 
