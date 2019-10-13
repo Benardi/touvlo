@@ -34,9 +34,9 @@ def g_grad(x):
     return g(x) * (1 - g(x))
 
 
-def gradient_descent(X, y, grad, initial_theta,
-                     alpha, num_iters, **kwargs):
-    """This function performs parameter optimization via gradient descent.
+def BGD(X, y, grad, initial_theta,
+        alpha, num_iters, **kwargs):
+    """Performs parameter optimization via batch gradient descent.
 
     :param X: Features' dataset plus bias column.
     :type X: numpy.array
@@ -62,6 +62,41 @@ def gradient_descent(X, y, grad, initial_theta,
     theta = copy(initial_theta)
     for _ in range(num_iters):
         theta = theta - alpha * grad(X, y, theta, **kwargs)
+
+    return theta
+
+
+def SGD(X, y, grad, initial_theta,
+        alpha, num_iters, **kwargs):
+    """Performs parameter optimization via stochastic gradient descent.
+
+    :param X: Features' dataset plus bias column.
+    :type X: numpy.array
+
+    :param y: Column vector of expected values.
+    :type y: numpy.array
+
+    :param grad: Routine that generates the partial derivatives given theta.
+    :type grad: numpy.array
+
+    :param initial_theta: Initial value for parameters to be optimized.
+    :type initial_theta: numpy.array
+
+    :param alpha: Learning rate or step size of the optimization.
+    :type alpha: float
+
+    :param num_iters: Number of times the optimization will be performed.
+    :type num_iters: int
+
+    :returns: Optimized model parameters.
+    :rtype: numpy.array
+    """
+    m = len(y)
+    theta = copy(initial_theta)
+
+    for _ in range(num_iters):
+        for i in range(m):
+            theta = theta - alpha * grad(X[[i], :], y[[i], :], theta, **kwargs)
 
     return theta
 

@@ -4,7 +4,7 @@ import pytest
 from numpy import array, cos, sin, exp
 from numpy.testing import assert_allclose
 
-from touvlo.utils import numerical_grad, g_grad, gradient_descent
+from touvlo.utils import (numerical_grad, g_grad, BGD, SGD)
 
 
 class TestLogisticRegression:
@@ -83,7 +83,7 @@ class TestLogisticRegression:
                         [0.196612, 0.235004, 0.25, 0.235004, 0.196612],
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_gradient_descent1(self, err):
+    def test_BGD1(self, err):
         def grad(X, y, theta):
             m = len(y)
             grad = (1 / m) * (X.T).dot(X.dot(theta) - y)
@@ -96,11 +96,28 @@ class TestLogisticRegression:
         alpha = 1
 
         assert_allclose(array([[-46.415], [276.248], [192.204]]),
-                        gradient_descent(X, y, grad, initial_theta,
-                                         alpha, num_iters),
+                        BGD(X, y, grad, initial_theta,
+                            alpha, num_iters),
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_gradient_descent2(self, err):
+    def test_BGD2(self, err):
+        def grad(X, y, theta):
+            m = len(y)
+            grad = (1 / m) * (X.T).dot(X.dot(theta) - y)
+            return grad
+
+        X = array([[0, 1, 2], [-1, 5, 3], [2, 0, 1]])
+        initial_theta = array([[0.3], [2.7], [1.6]])
+        y = array([[0.3], [1.2], [0.5]])
+        num_iters = 4
+        alpha = 0.001
+
+        assert_allclose(array([[0.31748], [2.58283], [1.51720]]),
+                        BGD(X, y, grad, initial_theta,
+                            alpha, num_iters),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_BGD3(self, err):
         def grad(X, y, theta, schleem, plumbus, wubba, lubba):
             m = len(y)
             grad = (schleem / (m * wubba))
@@ -119,8 +136,84 @@ class TestLogisticRegression:
         alpha = 0.01
 
         assert_allclose(array([[-0.0078777], [0.0106179], [0.0060865]]),
-                        gradient_descent(X, y, grad, initial_theta,
-                                         alpha, num_iters, lubba=lubba,
-                                         schleem=schleem, wubba=wubba,
-                                         plumbus=plumbus),
+                        BGD(X, y, grad, initial_theta,
+                            alpha, num_iters, lubba=lubba,
+                            schleem=schleem, wubba=wubba,
+                            plumbus=plumbus),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_SGD1(self, err):
+        def grad(X, y, theta):
+            m = len(y)
+            grad = (1 / m) * (X.T).dot(X.dot(theta) - y)
+            return grad
+
+        X = array([[0, 1, 2], [-1, 5, 3], [2, 0, 1]])
+        initial_theta = array([[0], [0], [0]])
+        y = array([[0.3], [1.2], [0.5]])
+        num_iters = 1
+        alpha = 1
+
+        assert_allclose(array([[6.1000], [-10.2000], [-3.7000]]),
+                        SGD(X, y, grad, initial_theta,
+                            alpha, num_iters),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_SGD2(self, err):
+        def grad(X, y, theta):
+            m = len(y)
+            grad = (1 / m) * (X.T).dot(X.dot(theta) - y)
+            return grad
+
+        X = array([[0, 1, 2], [-1, 5, 3], [2, 0, 1]])
+        initial_theta = array([[0], [0], [0]])
+        y = array([[0.3], [1.2], [0.5]])
+        num_iters = 10
+        alpha = 0.01
+
+        assert_allclose(array([[0.042237], [0.162748], [0.133705]]),
+                        SGD(X, y, grad, initial_theta,
+                            alpha, num_iters),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_SGD3(self, err):
+        def grad(X, y, theta):
+            m = len(y)
+            grad = (1 / m) * (X.T).dot(X.dot(theta) - y)
+            return grad
+
+        X = array([[0, 1, 2], [-1, 5, 3], [2, 0, 1]])
+        initial_theta = array([[0.3], [2.7], [1.6]])
+        y = array([[0.3], [1.2], [0.5]])
+        num_iters = 5
+        alpha = 0.001
+
+        assert_allclose(array([[0.36143], [2.28673], [1.30772]]),
+                        SGD(X, y, grad, initial_theta,
+                            alpha, num_iters),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_SGD4(self, err):
+        def grad(X, y, theta, schleem, plumbus, wubba, lubba):
+            m = len(y)
+            grad = (schleem / (m * wubba))
+            grad = grad * (X.T).dot(X.dot(theta) - y)
+            grad = grad + plumbus / (2 * lubba)
+            return grad
+
+        X = array([[0, 1, 2], [-1, 5, 3], [2, 0, 1]])
+        initial_theta = array([[0.3], [2.7], [1.6]])
+        y = array([[0.3], [1.2], [0.5]])
+        num_iters = 8
+        plumbus = 1.2
+        schleem = 0.9
+        wubba = 2.4
+        lubba = 3
+        alpha = 0.005
+
+        assert_allclose(array([[0.42789], [1.63920], [0.84140]]),
+                        SGD(X, y, grad, initial_theta,
+                            alpha, num_iters, lubba=lubba,
+                            schleem=schleem, wubba=wubba,
+                            plumbus=plumbus),
                         rtol=0, atol=0.001, equal_nan=False)
