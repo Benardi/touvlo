@@ -4,7 +4,7 @@ import pytest
 from numpy import array, cos, sin, exp
 from numpy.testing import assert_allclose
 
-from touvlo.utils import (numerical_grad, g_grad, BGD, SGD)
+from touvlo.utils import (numerical_grad, g_grad, BGD, SGD, MBGD)
 
 
 class TestLogisticRegression:
@@ -216,4 +216,146 @@ class TestLogisticRegression:
                             alpha, num_iters, lubba=lubba,
                             schleem=schleem, wubba=wubba,
                             plumbus=plumbus),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_MBGD1(self, err):
+        def grad(X, y, theta):
+            m = len(y)
+            grad = (1 / m) * (X.T).dot(X.dot(theta) - y)
+            return grad
+
+        X = array([[0, 1, 2], [-1, 5, 3.6], [2, 0.5, 1],
+                   [2, -1, 4], [3, 6, -3], [0, 7.8, 3.5],
+                   [2.5, 3, 4.3], [3.2, 5.7, -3], [0, 7.8, 3.5], [9, 8, 7]])
+        initial_theta = array([[0], [0], [0]])
+        y = array([[0.3], [1.2], [0.5], [0.8], [1.5],
+                   [-0.75], [0.43], [0.62], [0.85], [-0.3]])
+        num_iters = 1
+        alpha = 0.1
+        b = 3
+
+        assert_allclose(array([[-18.314], [-15.212], [-14.151]]),
+                        MBGD(X, y, grad, initial_theta,
+                             alpha, num_iters, b),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_MBGD2(self, err):
+        def grad(X, y, theta):
+            m = len(y)
+            grad = (1 / m) * (X.T).dot(X.dot(theta) - y)
+            return grad
+
+        X = array([[0, 1, 2], [-1, 5, 3.6], [2, 0.5, 1],
+                   [2, -1, 4], [3, 6, -3], [0, 7.8, 3.5],
+                   [2.5, 3, 4.3], [3.2, 5.7, -3], [0, 7.8, 3.5], [9, 8, 7]])
+        initial_theta = array([[3], [-2], [0.7]])
+        y = array([[0.3], [1.2], [0.5], [0.8], [1.5],
+                   [-0.75], [0.43], [0.62], [0.85], [-0.3]])
+        num_iters = 1
+        alpha = 0.05
+        b = 3
+
+        assert_allclose(array([[-2.9970], [-5.3434], [-3.5491]]),
+                        MBGD(X, y, grad, initial_theta,
+                             alpha, num_iters, b),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_MBGD3(self, err):
+        def grad(X, y, theta):
+            m = len(y)
+            grad = (1 / m) * (X.T).dot(X.dot(theta) - y)
+            return grad
+
+        X = array([[0, 1, 2], [-1, 5, 3.6], [2, 0.5, 1],
+                   [2, -1, 4], [3, 6, -3], [0, 7.8, 3.5],
+                   [2.5, 3, 4.3], [3.2, 5.7, -3], [0, 7.8, 3.5], [9, 8, 7]])
+        initial_theta = array([[3], [-2], [0.7]])
+        y = array([[0.3], [1.2], [0.5], [0.8], [1.5],
+                   [-0.75], [0.43], [0.62], [0.85], [-0.3]])
+        num_iters = 3
+        alpha = 0.05
+        b = 4
+
+        assert_allclose(array([[-4.6898], [-4.1763], [-6.0834]]),
+                        MBGD(X, y, grad, initial_theta,
+                             alpha, num_iters, b),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_MBGD4(self, err):
+        def grad(X, y, theta):
+            m = len(y)
+            grad = (1 / m) * (X.T).dot(X.dot(theta) - y)
+            return grad
+
+        X = array([[0, 1, 2], [-1, 5, 3.6], [2, 0.5, 1],
+                   [2, -1, 4], [3, 6, -3], [0, 7.8, 3.5],
+                   [2.5, 3, 4.3], [3.2, 5.7, -3], [0, 7.8, 3.5], [9, 8, 7]])
+        initial_theta = array([[3], [-2], [0.7]])
+        y = array([[0.3], [1.2], [0.5], [0.8], [1.5],
+                   [-0.75], [0.43], [0.62], [0.85], [-0.3]])
+        num_iters = 1
+        alpha = 0.05
+        b = 5
+
+        assert_allclose(array([[0.67576], [-2.01056], [-0.80705]]),
+                        MBGD(X, y, grad, initial_theta,
+                             alpha, num_iters, b),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_MBGD5(self, err):
+        def grad(X, y, theta, schleem, plumbus, wubba, lubba):
+            m = len(y)
+            grad = (schleem / (m * wubba))
+            grad = grad * (X.T).dot(X.dot(theta) - y)
+            grad = grad + plumbus / (2 * lubba)
+            return grad
+
+        X = array([[0, 1, 2], [-1, 5, 3.6], [2, 0.5, 1],
+                   [2, -1, 4], [3, 6, -3], [0, 7.8, 3.5],
+                   [2.5, 3, 4.3], [3.2, 5.7, -3], [0, 7.8, 3.5], [9, 8, 7]])
+        initial_theta = array([[3], [-2], [0.7]])
+        y = array([[0.3], [1.2], [0.5], [0.8], [1.5],
+                   [-0.75], [0.43], [0.62], [0.85], [-0.3]])
+        num_iters = 1
+        plumbus = 1.2
+        schleem = 0.9
+        wubba = 2.4
+        lubba = 3
+        alpha = 0.05
+        b = 5
+
+        assert_allclose(array([[2.27894], [-1.54560], [0.30656]]),
+                        MBGD(X, y, grad, initial_theta,
+                             alpha, num_iters, b, lubba=lubba,
+                             schleem=schleem, wubba=wubba,
+                             plumbus=plumbus),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_MBGD6(self, err):
+        def grad(X, y, theta, schleem, plumbus, wubba, lubba):
+            m = len(y)
+            grad = (schleem / (m * wubba))
+            grad = grad * (X.T).dot(X.dot(theta) - y)
+            grad = grad + plumbus / (2 * lubba)
+            return grad
+
+        X = array([[0, 1, 2], [-1, 5, 3.6], [2, 0.5, 1],
+                   [2, -1, 4], [3, 6, -3], [0, 7.8, 3.5],
+                   [2.5, 3, 4.3], [3.2, 5.7, -3], [0, 7.8, 3.5], [9, 8, 7]])
+        initial_theta = array([[3], [-2], [0.7]])
+        y = array([[0.3], [1.2], [0.5], [0.8], [1.5],
+                   [-0.75], [0.43], [0.62], [0.85], [-0.3]])
+        num_iters = 5
+        plumbus = 1.2
+        schleem = 0.9
+        wubba = 2.4
+        lubba = 3
+        alpha = 0.1
+        b = 5
+
+        assert_allclose(array([[-0.0062510], [-0.3414393], [-0.3127686]]),
+                        MBGD(X, y, grad, initial_theta,
+                             alpha, num_iters, b, lubba=lubba,
+                             schleem=schleem, wubba=wubba,
+                             plumbus=plumbus),
                         rtol=0, atol=0.001, equal_nan=False)
