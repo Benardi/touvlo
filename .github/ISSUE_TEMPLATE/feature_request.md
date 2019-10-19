@@ -7,14 +7,22 @@ assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+#### Description
+A clear and concise description of what the issue is about.
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+#### Screenshots
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+<img src="https://raw.githubusercontent.com/Benardi/touvlo/master/docs/content/img/touvlo.png" 
+     alt="Touvlo logo" width="400" height="400" />
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+
+#### Files
+A list of relevant files for this issue. This will help people navigate the project and offer some clues of where to start.
+
+#### Tasks
+Include specific tasks in the order they need to be done in. Include links to specific lines of code where the task should happen at.
+- [ ] Task 1
+- [ ] Task 2
+- [ ] Task 3
+
+Remember to use helpful labels and milestones. If you use the "help wanted" label, Code for America will [promote it widely](http://www.codeforamerica.org/geeks/civicissues).

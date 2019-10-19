@@ -112,7 +112,7 @@ Please read [CONTRIBUTING.md](https://github.com/Benardi/touvlo/blob/master/CONT
 
 * Check [pull_request_template.md](https://github.com/Benardi/touvlo/blob/master/pull_request_template.md) for the expected format of a pull request
 
-* Check [issue_template.md](https://github.com/Benardi/touvlo/blob/master/issue_template.md) for the expected format of an issue
+* Check [issue templates](https://github.com/Benardi/touvlo/issues/new/choose) for the suggested issue formats
 
 ## Versioning
 
