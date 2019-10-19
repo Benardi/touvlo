@@ -1,19 +1,25 @@
 # this file is *not* meant to cover or endorse the use of travis, but rather to
 # help confirm pull requests to this project.
 
+# Set the build language to Python
 language: python
 
 matrix:
   include:
     - python: 3.5
-      env: TOXENV=py35,pep8
+      env: TOXENV=py35,pep8,cover
     - python: 3.6
-      env: TOXENV=py36,pep8
+      env: TOXENV=py36,pep8,cover
     - python: 3.7
-      env: TOXENV=py37,pep8
+      env: TOXENV=py37,pep8,cover
 install: 
-  pip install tox
+  - pip install -U tox
+  - pip install tox codecov
 
+env:
+  - CODECOV_TOKEN="8c17b46a-8006-40aa-b411-5753f7158241"
 script: 
   - tox -e $TOXENV
+after_success:
+  - codecov 
 

@@ -1,7 +1,48 @@
 CHANGES
 =======
 
-* Add tox. Configure sphinx. Add pbr
-* Add dummy code and dummy test
-* Add project structure. Add travis config with nose
-* Initial commit
+* Update issue and PR templates
+* Set package version via pbr. Fix setup.cfg
+* Add cover testenv to travis and tox
+* Edit inits to bundle submodules into package
+* Add dependency LICENSE check
+* Add SGD implm and tests. Rename gradient descent
+* Add kwargs to gradient descent. Add unit test
+* Add anomaly detection module, unit tests and docs
+
+0.3.1
+-----
+
+* Edit README to set project logo. Remove stale module
+* add logo for the project
+* Rename nn module. Add nn hypothesis function
+* Move unit tests to mimic source code dir structure
+* Add issue and PR templates
+* Add pca module, documentation and unit tests
+* Create sub-modules and update documentation (#18)
+* Rename module to Touvlo (#16)
+* Replace unittest with pytest in test suites (#14)
+* adding to include python3.6 and python3.7
+* Edit docs config to document k-means module
+* Add kmeans module documentation
+* Add kmeans algorithm, routines and unit tests
+* Add code/tests for kmeans routines
+* Update docs conf to add nn module
+* Conform nn func signatures. Fix gradient descent
+* Add nn module docs. Reduce inits in nn tests
+* Update nn to have n hidden layers
+* Add unit tests for nn. Remove global vars from nn
+* Add nn implementation. Add reg to gradient descent
+* Update README.md and module desc. Update docs config
+* Split requirements. Update configs. Update version
+* Add docs test env. Update reqs and tox for  docs
+* Add pydoc for lr and utils modules
+* Add numerical grad impl and tests. Fix matrix init
+* Add regularized lr impl and related unit tests
+* Remove unused testing environment
+* Add unit tests to lr modules. Uniformize lr funcs
+* Add lr impl via normal eq. Add test for lr module
+* Add tests for logistic regression. Relay code to utils
+* Add lr implementation. Update tox config
+* Add lr cost function and gradient descent
+* Add project structure and setup

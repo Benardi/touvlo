@@ -1,0 +1,9 @@
+[run]
+source =
+  touvlo
+
+[report]
+include =
+  touvlo/*
+omit =
+  */tests/*
