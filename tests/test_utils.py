@@ -4,7 +4,8 @@ import pytest
 from numpy import array, cos, sin, exp
 from numpy.testing import assert_allclose
 
-from touvlo.utils import (numerical_grad, g_grad, BGD, SGD, MBGD)
+from touvlo.utils import (numerical_grad, g_grad, BGD, SGD,
+                          MBGD, mean_normlztn)
 
 
 class TestLogisticRegression:
@@ -358,4 +359,30 @@ class TestLogisticRegression:
                              alpha, num_iters, b, lubba=lubba,
                              schleem=schleem, wubba=wubba,
                              plumbus=plumbus),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_mean_normalization(self):
+        Y = array([[5, 4, 0, 0],
+                   [3, 0, 0, 0],
+                   [4, 0, 0, 0],
+                   [3, 0, 0, 0],
+                   [3, 0, 0, 0]])
+        R = array([[1, 1, 0, 0],
+                   [1, 0, 0, 0],
+                   [1, 0, 0, 0],
+                   [1, 0, 0, 0],
+                   [1, 0, 0, 0]])
+
+        Y_norm, Y_mean = mean_normlztn(Y, R)
+
+        assert_allclose(Y_norm,
+                        array([[0.5, -0.5, 0, 0],
+                               [0, 0, 0, 0],
+                               [0, 0, 0, 0],
+                               [0, 0, 0, 0],
+                               [0, 0, 0, 0]]),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+        assert_allclose(Y_mean,
+                        array([[4.5], [3], [4], [3], [3]]),
                         rtol=0, atol=0.001, equal_nan=False)

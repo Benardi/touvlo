@@ -18,6 +18,7 @@ Contents
    
    supv
    unsupv
+   rec_sys
    utils
 
 ******************

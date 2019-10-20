@@ -5,7 +5,7 @@
 .. moduleauthor:: Benardi Nunes <benardinunes@gmail.com>
 """
 
-from numpy import zeros, copy, std, mean, float64, exp, seterr
+from numpy import zeros, copy, std, mean, float64, exp, seterr, where
 
 
 # sigmoid gradient function
@@ -162,3 +162,32 @@ def feature_normalize(X):
     X_norm = (X - mu) / sigma
 
     return X_norm, mu, sigma
+
+
+def mean_normlztn(Y, R):
+    """Performs mean normalization in a numeric dataset.
+
+    :param Y: Scores' dataset.
+    :type Y: numpy.array
+
+    :param R: Dataset of 0s and 1s (whether there's a rating).
+    :type R: numpy.array
+
+    :returns:
+        - Y_norm - Normalized scores' dataset (row wise).
+        - Y_mean - Column vector of calculated means.
+
+    :rtype:
+        - Y_norm (:py:class: numpy.array)
+        - Y_mean (:py:class: numpy.array)
+    """
+    m, n = Y.shape
+    Y_mean = zeros((m, 1))
+    Y_norm = zeros((m, n))
+
+    for i in range(len(R)):
+        idx = where(R[i, :] == 1)[0]
+        Y_mean[i] = mean(Y[i, idx])
+        Y_norm[i, idx] = Y[i, idx] - Y_mean[i]
+
+    return Y_norm, Y_mean
