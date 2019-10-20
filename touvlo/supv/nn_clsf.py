@@ -17,22 +17,15 @@ from touvlo.utils import g, g_grad
 def feed_forward(X, theta, n_hidden_layers=1):
     """Applies forward propagation to calculate model's hypothesis.
 
-    :param X: Features' dataset.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset.
+        theta (numpy.array): Column vector of model's parameters.
+        n_hidden_layers (int): Number of hidden layers in network.
 
-    :param theta: Column vector of model's parameters.
-    :type theta: numpy.array
-
-    :param n_hidden_layers: Number of hidden layers in network.
-    :type n_hidden_layers: int
-
-    :returns:
-        - z - array of parameters prior to activation by layer.
-        - a - array of activation matrices by layer.
-
-    :rtype:
-        - z (:py:class: numpy.array(numpy.array))
-        - a (:py:class: numpy.array(numpy.array))
+    Returns:
+        (numpy.array(numpy.array), numpy.array(numpy.array)): A 2-tuple
+            consisting of an array of parameters prior to activation by layer
+            and an array of activation matrices by layer.
     """
     z = empty((n_hidden_layers + 2), dtype=object)
     a = empty((n_hidden_layers + 2), dtype=object)
@@ -57,26 +50,18 @@ def feed_forward(X, theta, n_hidden_layers=1):
 def back_propagation(y, theta, a, z, num_labels, n_hidden_layers=1):
     """Applies back propagation to minimize model's loss.
 
-    :param y: Column vector of expected values.
-    :type y: numpy.array
+    Args:
+        y (numpy.array): Column vector of expected values.
+        theta (numpy.array(numpy.array)): array of model's weight matrices by
+            layer.
+        a (numpy.array(numpy.array)): array of activation matrices by layer.
+        z (numpy.array(numpy.array)): array of parameters prior to sigmoid by
+            layer.
+        num_labels (int): Number of classes in multiclass classification.
+        n_hidden_layers (int): Number of hidden layers in network.
 
-    :param theta: array of model's weight matrices by layer.
-    :type theta: numpy.array(numpy.array)
-
-    :param a: array of activation matrices by layer.
-    :type a: numpy.array(numpy.array)
-
-    :param z: array of parameters prior to sigmoid by layer.
-    :type z: numpy.array(numpy.array)
-
-    :param num_labels: Number of classes in multiclass classification.
-    :type num_labels: int
-
-    :param n_hidden_layers: Number of hidden layers in network.
-    :type n_hidden_layers: int
-
-    :returns: array of matrices of 'error values' by layer.
-    :rtype: numpy.array(numpy.array)
+    Returns:
+        numpy.array(numpy.array): array of matrices of 'error values' by layer.
     """
     delta = empty((n_hidden_layers + 2), dtype=object)
     L = n_hidden_layers + 1  # last layer
@@ -94,17 +79,13 @@ def back_propagation(y, theta, a, z, num_labels, n_hidden_layers=1):
 def h(X, theta, n_hidden_layers=1):
     """Classification Neural Network hypothesis.
 
-    :param X: Features' dataset.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset.
+        theta (numpy.array): Column vector of model's parameters.
+        n_hidden_layers (int): Number of hidden layers in network.
 
-    :param theta: Column vector of model's parameters.
-    :type theta: numpy.array
-
-    :param n_hidden_layers: Number of hidden layers in network.
-    :type n_hidden_layers: int
-
-    :returns: The probability that each entry belong to class 1.
-    :rtype: numpy.array
+    Returns:
+        numpy.array: The probability that each entry belong to class 1.
     """
     _, a = feed_forward(X, theta, n_hidden_layers)
     L = n_hidden_layers + 1  # last layer
@@ -116,26 +97,16 @@ def h(X, theta, n_hidden_layers=1):
 def cost_function(X, y, theta, _lambda, num_labels, n_hidden_layers=1):
     """Computes the cost function J for Neural Network.
 
-    :param X: Features' dataset.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset.
+        y (numpy.array): Column vector of expected values.
+        theta (numpy.array): Column vector of model's parameters.
+        _lambda (float): The regularization hyperparameter.
+        num_labels (int): Number of classes in multiclass classification.
+        n_hidden_layers (int): Number of hidden layers in network.
 
-    :param y: Column vector of expected values.
-    :type y: numpy.array
-
-    :param theta: Column vector of model's parameters.
-    :type theta: numpy.array
-
-    :param _lambda: The regularization hyperparameter.
-    :type _lambda: float
-
-    :param num_labels: Number of classes in multiclass classification.
-    :type num_labels: int
-
-    :param n_hidden_layers: Number of hidden layers in network.
-    :type n_hidden_layers: int
-
-    :returns: Computed cost.
-    :rtype: float
+    Returns:
+        float: Computed cost.
     """
     m, n = X.shape
     intercept = ones((m, 1), dtype=float64)
@@ -162,32 +133,18 @@ def grad(X, y, nn_params, _lambda, input_layer_size,
          hidden_layer_size, num_labels, n_hidden_layers=1):
     """Calculates gradient of neural network's parameters.
 
-    :param X: Features' dataset.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset.
+        y (numpy.array): Column vector of expected values.
+        nn_params (numpy.array): Column vector of model's parameters.
+        _lambda (float): The regularization hyperparameter.
+        input_layer_size (int): Number of units in the input layer.
+        hidden_layer_size (int): Number of units in a hidden layer.
+        num_labels (int): Number of classes in multiclass classification.
+        n_hidden_layers (int): Number of hidden layers in network.
 
-    :param y: Column vector of expected values.
-    :type y: numpy.array
-
-    :param nn_params: Column vector of model's parameters.
-    :type theta: numpy.array
-
-    :param _lambda: The regularization hyperparameter.
-    :type _lambda: float
-
-    :param input_layer_size: Number of units in the input layer.
-    :type input_layer_size: int
-
-    :param hidden_layer_size: Number of units in a hidden layer.
-    :type input_layer_size: int
-
-    :param num_labels: Number of classes in multiclass classification.
-    :type num_labels: int
-
-    :param n_hidden_layers: Number of hidden layers in network.
-    :type n_hidden_layers: int
-
-    :returns: array of gradient values by weight matrix.
-    :rtype: numpy.array(numpy.array)
+    Returns:
+        numpy.array(numpy.array): array of gradient values by weight matrix.
     """
     theta = unravel_params(nn_params, input_layer_size, hidden_layer_size,
                            num_labels, n_hidden_layers)
@@ -228,17 +185,13 @@ def grad(X, y, nn_params, _lambda, input_layer_size,
 def rand_init_weights(L_in, L_out):
     """Initializes weight matrix with random values.
 
-    :param X: Features' dataset.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset.
+        L_in (int): Number of units in previous layer.
+        n_hidden_layers (int): Number of units in next layer.
 
-    :param L_in: Number of units in previous layer.
-    :type L_in: int
-
-    :param n_hidden_layers: Number of units in next layer.
-    :type n_hidden_layers: int
-
-    :returns: Random values' matrix of conforming dimensions.
-    :rtype: numpy.array
+    Returns:
+        numpy.array: Random values' matrix of conforming dimensions.
     """
     W = zeros((L_out, 1 + L_in), float64)  # plus 1 for bias term
     epsilon_init = sqrt(6) / sqrt((L_in + 1) + L_out)
@@ -251,23 +204,15 @@ def unravel_params(nn_params, input_layer_size, hidden_layer_size,
                    num_labels, n_hidden_layers=1):
     """Unravels flattened array into list of weight matrices
 
-    :param nn_params: Row vector of model's parameters.
-    :type nn_params: numpy.array
+    Args:
+        nn_params (numpy.array): Row vector of model's parameters.
+        input_layer_size (int): Number of units in the input layer.
+        hidden_layer_size (int): Number of units in a hidden layer.
+        num_labels (int): Number of classes in multiclass classification.
+        n_hidden_layers (int): Number of hidden layers in network.
 
-    :param input_layer_size: Number of units in the input layer.
-    :type input_layer_size: int
-
-    :param hidden_layer_size: Number of units in a hidden layer.
-    :type input_layer_size: int
-
-    :param num_labels: Number of classes in multiclass classification.
-    :type num_labels: int
-
-    :param n_hidden_layers: Number of hidden layers in network.
-    :type n_hidden_layers: int
-
-    :returns: array with model's weight matrices.
-    :rtype: numpy.array(numpy.array)
+    Returns:
+        numpy.array(numpy.array): array with model's weight matrices.
     """
     input_layer_n_units = hidden_layer_size * (input_layer_size + 1)
     hidden_layer_n_units = hidden_layer_size * (hidden_layer_size + 1)
@@ -302,20 +247,14 @@ def init_nn_weights(input_layer_size, hidden_layer_size,
                     num_labels, n_hidden_layers=1):
     """Initialize the weight matrices of a network with random values.
 
-    :param hidden_layer_size: Number of units in a hidden layer.
-    :type input_layer_size: int
+    Args:
+        hidden_layer_size (int): Number of units in a hidden layer.
+        input_layer_size (int): Number of units in the input layer.
+        num_labels (int): Number of classes in multiclass classification.
+        n_hidden_layers (int): Number of hidden layers in network.
 
-    :param input_layer_size: Number of units in the input layer.
-    :type input_layer_size: int
-
-    :param num_labels: Number of classes in multiclass classification.
-    :type num_labels: int
-
-    :param n_hidden_layers: Number of hidden layers in network.
-    :type n_hidden_layers: int
-
-    :returns: array of weight matrices of random values.
-    :rtype: numpy.array(numpy.array)
+    Returns:
+        numpy.array(numpy.array): array of weight matrices of random values.
     """
     theta = empty((n_hidden_layers + 1), dtype=object)
     theta[0] = rand_init_weights(input_layer_size, hidden_layer_size)

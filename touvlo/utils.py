@@ -12,11 +12,11 @@ from numpy import zeros, copy, std, mean, float64, exp, seterr
 def g(x):
     """This function applies the sigmoid function on a given value.
 
-    :param x: Input value or object containing value .
-    :type x: obj
+    Args:
+        x (obj): Input value or object containing value .
 
-    :returns: Sigmoid function at value.
-    :rtype: obj
+    Returns:
+        obj: Sigmoid function at value.
     """
     return 1 / (1 + exp(-x))
 
@@ -25,11 +25,11 @@ def g(x):
 def g_grad(x):
     """This function calculates the sigmoid gradient at a given value.
 
-    :param x: Input value or object containing value .
-    :type x: obj
+    Args:
+        x (obj): Input value or object containing value .
 
-    :returns: Sigmoid gradient at value.
-    :rtype: obj
+    Returns:
+        obj: Sigmoid gradient at value.
     """
     return g(x) * (1 - g(x))
 
@@ -38,26 +38,18 @@ def BGD(X, y, grad, initial_theta,
         alpha, num_iters, **kwargs):
     """Performs parameter optimization via Batch Gradient Descent.
 
-    :param X: Features' dataset plus bias column.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset plus bias column.
+        y (numpy.array): Column vector of expected values.
+        grad (numpy.array): Routine that generates the partial derivatives
+            given theta.
+        initial_theta (numpy.array): Initial value for parameters to be
+            optimized.
+        alpha (float): Learning rate or _step size of the optimization.
+        num_iters (int): Number of times the optimization will be performed.
 
-    :param y: Column vector of expected values.
-    :type y: numpy.array
-
-    :param grad: Routine that generates the partial derivatives given theta.
-    :type grad: numpy.array
-
-    :param initial_theta: Initial value for parameters to be optimized.
-    :type initial_theta: numpy.array
-
-    :param alpha: Learning rate or _step size of the optimization.
-    :type alpha: float
-
-    :param num_iters: Number of times the optimization will be performed.
-    :type num_iters: int
-
-    :returns: Optimized model parameters.
-    :rtype: numpy.array
+    Returns:
+        numpy.array: Optimized model parameters.
     """
     theta = copy(initial_theta)
     for _ in range(num_iters):
@@ -70,26 +62,18 @@ def SGD(X, y, grad, initial_theta,
         alpha, num_iters, **kwargs):
     """Performs parameter optimization via Stochastic Gradient Descent.
 
-    :param X: Features' dataset plus bias column.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset plus bias column.
+        y (numpy.array): Column vector of expected values.
+        grad (numpy.array): Routine that generates the partial derivatives
+            given theta.
+        initial_theta (numpy.array): Initial value for parameters to be
+            optimized.
+        alpha (float): Learning rate or _step size of the optimization.
+        num_iters (int): Number of times the optimization will be performed.
 
-    :param y: Column vector of expected values.
-    :type y: numpy.array
-
-    :param grad: Routine that generates the partial derivatives given theta.
-    :type grad: numpy.array
-
-    :param initial_theta: Initial value for parameters to be optimized.
-    :type initial_theta: numpy.array
-
-    :param alpha: Learning rate or _step size of the optimization.
-    :type alpha: float
-
-    :param num_iters: Number of times the optimization will be performed.
-    :type num_iters: int
-
-    :returns: Optimized model parameters.
-    :rtype: numpy.array
+    Returns:
+        numpy.array: Optimized model parameters.
     """
     m = len(y)
     theta = copy(initial_theta)
@@ -105,29 +89,19 @@ def MBGD(X, y, grad, initial_theta,
          alpha, num_iters, b, **kwargs):
     """Performs parameter optimization via Mini-Batch Gradient Descent.
 
-    :param X: Features' dataset plus bias column.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset plus bias column.
+        y (numpy.array): Column vector of expected values.
+        grad (numpy.array): Routine that generates the partial derivatives
+            given theta.
+        initial_theta (numpy.array): Initial value for parameters to be
+            optimized.
+        alpha (float): Learning rate or _step size of the optimization.
+        num_iters (int): Number of times the optimization will be performed.
+        b (int): Number of examples in mini batch.
 
-    :param y: Column vector of expected values.
-    :type y: numpy.array
-
-    :param grad: Routine that generates the partial derivatives given theta.
-    :type grad: numpy.array
-
-    :param initial_theta: Initial value for parameters to be optimized.
-    :type initial_theta: numpy.array
-
-    :param alpha: Learning rate or _step size of the optimization.
-    :type alpha: float
-
-    :param num_iters: Number of times the optimization will be performed.
-    :type num_iters: int
-
-    :param b: Number of examples in mini batch.
-    :type b: int
-
-    :returns: Optimized model parameters.
-    :rtype: numpy.array
+    Returns:
+        numpy.array: Optimized model parameters.
     """
     m = len(y)
     theta = copy(initial_theta)
@@ -149,17 +123,13 @@ def MBGD(X, y, grad, initial_theta,
 def numerical_grad(J, theta, err):
     """Numerically calculates the gradient of a given cost function.
 
-    :param J: Function handle that computes cost given theta.
-    :type J: function
+    Args:
+        J (Callable): Function handle that computes cost given theta.
+        theta (numpy.array): Model parameters.
+        err (float): distance between points where J is evaluated.
 
-    :param theta: Model parameters.
-    :type theta: numpy.array
-
-    :param err: distance between points where J is evaluated.
-    :type err: float
-
-    :returns: Computed numeric gradient.
-    :rtype: numpy.array
+    Returns:
+        numpy.array: Computed numeric gradient.
     """
     num_grad = zeros(theta.shape, dtype=float64)
     perturb = zeros(theta.shape, dtype=float64)
@@ -177,18 +147,13 @@ def numerical_grad(J, theta, err):
 def feature_normalize(X):
     """Performs Z score normalization in a numeric dataset.
 
-    :param X: Features' dataset plus bias column.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset plus bias column.
 
-    :returns:
-        - X_norm - Normalized features' dataset.
-        - mu - Mean of each feature
-        - sigma - Standard deviation of each feature.
-
-    :rtype:
-        - X_norm (:py:class: numpy.array)
-        - mu (:py:class: numpy.array)
-        - sigma (:py:class: numpy.array)
+    Returns:
+        (numpy.array, numpy.array, numpy.array): A 3-tuple of X_norm,
+            normalized features' dataset, mu, mean of each feature, and sigma,
+            standard deviation of each feature.
     """
     seterr(divide='ignore', invalid='ignore')
     mu = mean(X, axis=0)

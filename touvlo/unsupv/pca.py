@@ -12,16 +12,12 @@ from numpy import diag
 def pca(X):
     """Runs Principal Component Analysis on dataset
 
-    :param X: Features' dataset
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset
 
-    :returns:
-        - U - eigenvectors of covariance matrix
-        - S - eigenvalues (on diagonal) of covariance matrix
-
-    :rtype:
-        - U (:py:class: numpy.array)
-        - S (:py:class: numpy.array)
+    Returns:
+        (numpy.array, numpy.array): A 2-tuple of U, eigenvectors of covariance
+            matrix, and S, eigenvalues (on diagonal) of covariance matrix.
     """
     m, n = X.shape
     Sigma = (1 / m) * X.T.dot(X)
@@ -34,16 +30,13 @@ def pca(X):
 def project_data(X, U, k):
     """Computes reduced data representation (projected data)
 
-    :param X: Normalized features' dataset
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Normalized features' dataset
+        U (numpy.array): eigenvectors of covariance matrix
+        k (int): Number of features in reduced data representation
 
-    :param U: eigenvectors of covariance matrix
-    :type U: numpy.array
-
-    :param k: Number of features in reduced data representation
-
-    :returns: Reduced data representation (projection)
-    :rtype: numpy.array
+    Returns:
+        numpy.array: Reduced data representation (projection)
     """
     U_reduce = U[:, 0:k]
     Z = X.dot(U_reduce)
@@ -53,16 +46,13 @@ def project_data(X, U, k):
 def recover_data(Z, U, k):
     """Recovers an approximation of original data using the projected data
 
-    :param Z: Reduced data representation (projection)
-    :type Z: numpy.array
+    Args:
+        Z (numpy.array): Reduced data representation (projection)
+        U (numpy.array): eigenvectors of covariance matrix
+        k (int): Number of features in reduced data representation
 
-    :param U: eigenvectors of covariance matrix
-    :type U: numpy.array
-
-    :param k: Number of features in reduced data representation
-
-    :returns: Approximated features' dataset
-    :rtype: numpy.array
+    Returns:
+        numpy.array: Approximated features' dataset
     """
     X_rec = Z.dot(U[:, 0:k].T)
     return X_rec

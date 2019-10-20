@@ -13,7 +13,7 @@ K-means
    :members:
 
 Anomaly Detection
-=======
+=================
 .. automodule:: touvlo.unsupv.anmly_detc
    :members:
 

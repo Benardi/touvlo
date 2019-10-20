@@ -16,14 +16,14 @@ from numpy.linalg import det, inv
 def is_anomaly(p, threshold=0.5):
     """Predicts whether a probability falls into class 1 (anomaly).
 
-    :param p: Probability that example belongs to class 1 (is anomaly).
-    :type x: numpy.array
+    Args:
+        p (numpy.array): Probability that example belongs to class 1 (is
+            anomaly).
+        threshold (float): point below which an example is considered of class
+            1.
 
-    :param threshold: point below which an example is considered of class 1.
-    :type threshold: float
-
-    :returns: Binary value to denote class 1 or 0
-    :rtype: int
+    Returns:
+        int: Binary value to denote class 1 or 0
     """
     prediction = array([[1] if el < threshold else [0] for el in p])
     return prediction
@@ -32,14 +32,12 @@ def is_anomaly(p, threshold=0.5):
 def cov_matrix(X, mu):
     """Calculates the covariance matrix for matrix X (m x n).
 
-    :param X: Features' dataset.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset.
+        mu (numpy.array): Mean of each feature/column of.
 
-    :param mu: Mean of each feature/column of.
-    :type mu: numpy.array
-
-    :returns: Covariance matrix (n x n)
-    :rtype: int
+    Returns:
+        int: Covariance matrix (n x n)
     """
     m, n = X.shape
     X_minus_mu = X - mu
@@ -51,16 +49,13 @@ def cov_matrix(X, mu):
 def estimate_uni_gaussian(X):
     """Estimates parameters for Univariate Gaussian distribution.
 
-    :param X: Features' dataset.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset.
 
-    :returns:
-        - mu - Mean of each feature/column of X.
-        - sigma2 - Variance of each feature/column of X.
-
-    :rtype:
-        - mu (:py:class: numpy.array)
-        - sigma2 (:py:class: numpy.array)
+    Returns:
+        (numpy.array, numpy.array): A 2-tuple of mu, the mean of each
+            feature/column of X, and sigma2, the variance of each
+            feature/column of X.
     """
     mu = mean(X, axis=0)
     sigma2 = var(X, axis=0)
@@ -70,16 +65,12 @@ def estimate_uni_gaussian(X):
 def estimate_multi_gaussian(X):
     """Estimates parameters for Multivariate Gaussian distribution.
 
-    :param X: Features' dataset.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset.
 
-    :returns:
-        - mu - Mean of each feature/column of X.
-        - sigma - Covariance matrix for X.
-
-    :rtype:
-        - mu (:py:class: numpy.array)
-        - sigma (:py:class: numpy.array)
+    Returns:
+        (numpy.array, numpy.array): A 2-tuple of mu, the mean of each
+            feature/column of X, and sigma, the covariance matrix for X.
     """
     m, n = X.shape
     mu = mean(X, axis=0)
@@ -91,17 +82,13 @@ def estimate_multi_gaussian(X):
 def uni_gaussian(X, mu, sigma2):
     """Estimates probability that examples belong to Univariate Gaussian.
 
-    :param X: Features' dataset.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset.
+        mu (numpy.array): Mean of each feature/column of X.
+        sigma2 (numpy.array): Variance of each feature/column of X.
 
-    :param mu: Mean of each feature/column of X.
-    :type mu: numpy.array
-
-    :param sigma2: Variance of each feature/column of X.
-    :type sigma2: numpy.array
-
-    :returns: Probability density function for each example
-    :rtype: numpy.array
+    Returns:
+        numpy.array: Probability density function for each example
     """
     p = (1 / sqrt(2 * pi * sigma2))
     p = p * exp(-power(X - mu, 2) / (2 * sigma2))
@@ -116,17 +103,13 @@ def uni_gaussian(X, mu, sigma2):
 def multi_gaussian(X, mu, sigma):
     """Estimates probability that examples belong to Multivariate Gaussian.
 
-    :param X: Features' dataset.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset.
+        mu (numpy.array): Mean of each feature/column of X.
+        sigma (numpy.array): Covariance matrix for X.
 
-    :param mu: Mean of each feature/column of X.
-    :type mu: numpy.array
-
-    :param sigma: Covariance matrix for X.
-    :type sigma: numpy.array
-
-    :returns: Probability density function for each example
-    :rtype: numpy.array
+    Returns:
+        numpy.array: Probability density function for each example
     """
     m, n = X.shape
     X = X - mu
@@ -144,17 +127,13 @@ def multi_gaussian(X, mu, sigma):
 def predict(X, epsilon, gaussian, **kwargs):
     """Predicts whether examples are anomalies.
 
-    :param X: Features' dataset.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset.
+        epsilon (float): point below which an example is considered of class 1.
+        gaussian (numpy.array): Function that estimates pertinency probability.
 
-    :param epsilon: point below which an example is considered of class 1.
-    :type epsilon: float
-
-    :param gaussian: Function that estimates pertinency probability.
-    :type gaussian: numpy.array
-
-    :returns: Column vector of classification
-    :rtype: numpy.array
+    Returns:
+        numpy.array: Column vector of classification
     """
     p = gaussian(X=X, **kwargs)
     return is_anomaly(p, threshold=epsilon)

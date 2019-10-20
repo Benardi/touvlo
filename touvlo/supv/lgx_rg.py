@@ -14,14 +14,13 @@ from touvlo.utils import g
 def p(x, threshold=0.5):
     """Predicts whether a probability falls into class 1.
 
-    :param x: Probability that example belongs to class 1.
-    :type x: obj
+    Args:
+        x (obj): Probability that example belongs to class 1.
+        threshold (float): point above which a probability is deemed of class
+            1.
 
-    :param threshold: point above which a probability is deemed of class 1.
-    :type threshold: float
-
-    :returns: Binary value to denote class 1 or 0
-    :rtype: int
+    Returns:
+        int: Binary value to denote class 1 or 0
     """
     prediction = None
     if x >= threshold:
@@ -35,16 +34,15 @@ def p(x, threshold=0.5):
 def h(X, theta):
     """Logistic regression hypothesis.
 
-    :param X: Features' dataset plus bias column.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset plus bias column.
+        theta (numpy.array): Column vector of model's parameters.
 
-    :param theta: Column vector of model's parameters.
-    :type theta: numpy.array
+    Raises:
+        ValueError
 
-    :raises: ValueError
-
-    :returns: The probability that each entry belong to class 1.
-    :rtype: numpy.array
+    Returns:
+        numpy.array: The probability that each entry belong to class 1.
     """
     return g(X.dot(theta))
 
@@ -52,17 +50,13 @@ def h(X, theta):
 def cost_func(X, y, theta):
     """Computes the cost function J for Logistic Regression.
 
-    :param X: Features' dataset plus bias column.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset plus bias column.
+        y (numpy.array): Column vector of expected values.
+        theta (numpy.array): Column vector of model's parameters.
 
-    :param y: Column vector of expected values.
-    :type y: numpy.array
-
-    :param theta: Column vector of model's parameters.
-    :type theta: numpy.array
-
-    :returns: Computed cost.
-    :rtype: float
+    Returns:
+        float: Computed cost.
     """
     m = len(y)
     J = (1 / m) * ((-y.T).dot(log(h(X, theta)))
@@ -73,20 +67,14 @@ def cost_func(X, y, theta):
 def reg_cost_func(X, y, theta, _lambda):
     """Computes the regularized cost function J for Logistic Regression.
 
-    :param X: Features' dataset plus bias column.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset plus bias column.
+        y (numpy.array): Column vector of expected values.
+        theta (numpy.array): Column vector of model's parameters.
+        _lambda (float): The regularization hyperparameter.
 
-    :param y: Column vector of expected values.
-    :type y: numpy.array
-
-    :param theta: Column vector of model's parameters.
-    :type theta: numpy.array
-
-    :param _lambda: The regularization hyperparameter.
-    :type _lambda: float
-
-    :returns: Computed cost with regularization.
-    :rtype: float
+    Returns:
+        float: Computed cost with regularization.
     """
     m = len(y)
     J = - (1 / m) * ((y.T).dot(log(h(X, theta)))
@@ -98,17 +86,13 @@ def reg_cost_func(X, y, theta, _lambda):
 def grad(X, y, theta):
     """Computes the gradient for the parameters theta.
 
-    :param X: Features' dataset plus bias column.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset plus bias column.
+        y (numpy.array): Column vector of expected values.
+        theta (numpy.array): Column vector of model's parameters.
 
-    :param y: Column vector of expected values.
-    :type y: numpy.array
-
-    :param theta: Column vector of model's parameters.
-    :type theta: numpy.array
-
-    :returns: Gradient column vector.
-    :rtype: numpy.array
+    Returns:
+        numpy.array: Gradient column vector.
     """
     m = len(y)
     grad = (1 / m) * (X.T).dot(h(X, theta) - y)
@@ -118,20 +102,14 @@ def grad(X, y, theta):
 def reg_grad(X, y, theta, _lambda):
     """Computes the regularized gradient for Logistic Regression.
 
-    :param X: Features' dataset plus bias column.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset plus bias column.
+        y (numpy.array): Column vector of expected values.
+        theta (numpy.array): Column vector of model's parameters.
+        _lambda (float): The regularization hyperparameter.
 
-    :param y: Column vector of expected values.
-    :type y: numpy.array
-
-    :param theta: Column vector of model's parameters.
-    :type theta: numpy.array
-
-    :param _lambda: The regularization hyperparameter.
-    :type _lambda: float
-
-    :returns: Regularized gradient column vector.
-    :rtype: numpy.array
+    Returns:
+        numpy.array: Regularized gradient column vector.
     """
     m = len(y)
     grad = zeros(theta.shape)
@@ -143,32 +121,29 @@ def reg_grad(X, y, theta, _lambda):
 
 
 def predict_prob(X, theta):
-    """ Produces the probability that the entries belong to class 1.
+    """Produces the probability that the entries belong to class 1.
 
-    :param X: Features' dataset plus bias column.
-    :type X: numpy.array
+    Returns:
+        X (numpy.array): Features' dataset plus bias column.
+        theta (numpy.array): Column vector of model's parameters.
 
-    :param theta: Column vector of model's parameters.
-    :type theta: numpy.array
+    Raises:
+        ValueError
 
-    :raises: ValueError
-
-    :returns: The probability that each entry belong to class 1.
-    :rtype: numpy.array
+    Returns:
+        numpy.array: The probability that each entry belong to class 1.
     """
     return g(X.dot(theta))
 
 
 def predict(X, theta):
-    """ Classifies each entry as class 1 or class 0.
+    """Classifies each entry as class 1 or class 0.
 
-    :param X: Features' dataset plus bias column.
-    :type X: numpy.array
+    Args:
+        X (numpy.array): Features' dataset plus bias column.
+        theta (numpy.array): Column vector of model's parameters.
 
-    :param theta: Column vector of model's parameters.
-    :type theta: numpy.array
-
-    :returns: Column vector with each entry classification.
-    :rtype: numpy.array
+    Returns:
+        numpy.array: Column vector with each entry classification.
     """
     return p(predict_prob(X, theta))

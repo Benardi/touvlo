@@ -1,0 +1,4 @@
+pbr
+sphinx
+rtcat_sphinx_theme
+sphinxcontrib-napoleon
