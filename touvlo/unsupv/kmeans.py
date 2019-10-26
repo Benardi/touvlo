@@ -169,8 +169,7 @@ def elbow_method(X, K_values, max_iters, n_inits):
         n_inits (int): Number of random initialization.
 
     Returns:
-        (list(int), list(float)): A 2-tuple of K_values, a list of possible
-            numbers of centroids, and cost_values, a computed cost for each K.
+        (list(float)): a list of cost values for each K.
     """
     cost_values = []
     for K in K_values:
@@ -178,4 +177,4 @@ def elbow_method(X, K_values, max_iters, n_inits):
         cost = cost_function(X, idx, centroids)
         cost_values.append(cost)
 
-    return K_values, cost_values
+    return cost_values

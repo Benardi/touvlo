@@ -5,7 +5,7 @@ from numpy import array, cos, sin, exp
 from numpy.testing import assert_allclose
 
 from touvlo.utils import (numerical_grad, g_grad, BGD, SGD,
-                          MBGD, mean_normlztn)
+                          MBGD, mean_normlztn, feature_normalize)
 
 
 class TestLogisticRegression:
@@ -385,4 +385,21 @@ class TestLogisticRegression:
 
         assert_allclose(Y_mean,
                         array([[4.5], [3], [4], [3], [3]]),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_feature_normalize(self, err):
+        X = array([[1.5, 8., 7.5], [1., 6., 9.]])
+        X_norm, mu, sigma = feature_normalize(X)
+
+        assert_allclose(array([1.25, 7, 8.25]),
+                        mu,
+                        rtol=0, atol=0.001, equal_nan=False)
+
+        assert_allclose(array([0.35355339, 1.41421356, 1.06066017]),
+                        sigma,
+                        rtol=0, atol=0.001, equal_nan=False)
+
+        assert_allclose(array([[0.707, 0.707, -0.707],
+                               [-0.707, -0.707, 0.707]]),
+                        X_norm,
                         rtol=0, atol=0.001, equal_nan=False)

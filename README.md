@@ -6,8 +6,8 @@
 
 
 <p align="center">
-    <a href="https://travis-ci.org/Benardi/touvlo">
-        <img src="https://api.travis-ci.org/Benardi/touvlo.svg?branch=master"
+    <a href="https://travis-ci.com/Benardi/touvlo">
+        <img src="https://api.travis-ci.com/Benardi/touvlo.svg?branch=master"
             alt="Build Status"/></a>
     <a href="https://touvlo.readthedocs.io/en/latest/?badge=latest">
         <img src="https://readthedocs.org/projects/touvlo/badge/?version=latest"

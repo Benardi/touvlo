@@ -5,7 +5,7 @@ from numpy.testing import assert_allclose, assert_almost_equal
 from touvlo.unsupv.kmeans import (find_closest_centroids, euclidean_dist,
                                   compute_centroids, init_centroids,
                                   cost_function, run_kmeans,
-                                  run_intensive_kmeans)
+                                  run_intensive_kmeans, elbow_method)
 
 
 class TestKmeans:
@@ -180,3 +180,16 @@ class TestKmeans:
         assert all(idx < K)
         assert all(idx > -1)
         assert len(centroids) == K
+
+    def test_elbow_method(self):
+        X = array([[5.89562, 2.89844], [5.61754, 2.59751], [5.63176, 3.04759],
+                   [5.50259, 3.11869], [6.48213, 2.55085], [7.30279, 3.38016],
+                   [6.99198, 2.98707], [4.82553, 2.77962], [6.11768, 2.85476],
+                   [0.94049, 5.71557]])
+        max_iters = 6
+        n_inits = 1
+        K_values = [1, 2, 3, 4]
+
+        cost_values = elbow_method(X, K_values, max_iters, n_inits)
+
+        assert all(cost >= 0 for cost in cost_values)
