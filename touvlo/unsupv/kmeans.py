@@ -7,7 +7,7 @@
 
 from math import inf, sqrt
 
-from numpy import zeros, int64, power, sum, mean
+from numpy import zeros, int64, power, sum, mean, full, nan
 from numpy.random import permutation
 
 
@@ -60,6 +60,9 @@ def find_closest_centroids(X, initial_centroids):
 def compute_centroids(X, idx, K):
     """Computes centroids from the mean of its cluster's members.
 
+    Computes centroids from the mean of its cluster's members if there are
+    any members for the centroid, else it returns an array of nan.
+
     Args:
         X (numpy.array): Features' dataset
         idx (numpy.array): Column vector of assigned centroids' indices.
@@ -68,10 +71,16 @@ def compute_centroids(X, idx, K):
     Returns:
         numpy.array: Column vector of newly computed centroids
     """
+
     m, n = X.shape
+    elements = None
     centroids = zeros((K, n))
     for k in range(K):
-        centroids[k] = mean(X[(idx == k).flatten()], axis=0)
+        elements = X[(idx == k).flatten()]
+        if elements.size != 0:
+            centroids[k] = mean(elements, axis=0)
+        else:
+            centroids[k] = full((1, n), nan)
 
     return centroids
 
