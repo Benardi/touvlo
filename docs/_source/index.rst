@@ -16,9 +16,11 @@ Contents
 .. toctree::
    :maxdepth: 2
    
-   supv
-   unsupv
+   lin_rg
+   lgx_rg
+   nn_clsf
    rec_sys
+   unsupv
    utils
 
 ******************

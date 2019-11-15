@@ -5,9 +5,9 @@ from numpy.testing import assert_allclose
 from numpy import ones, zeros, float64, array, append, genfromtxt
 from numpy.linalg import LinAlgError
 
-from touvlo.supv.lin_rg import (normal_eqn, cost_func, reg_cost_func, grad,
-                                reg_grad, predict, h, LinearRegression,
-                                RidgeLinearRegression, reg_normal_eqn)
+from touvlo.lin_rg import (normal_eqn, cost_func, reg_cost_func, grad,
+                           reg_grad, predict, h, LinearRegression,
+                           RidgeLinearRegression, reg_normal_eqn)
 from touvlo.utils import numerical_grad
 
 TESTDATA1 = os.path.join(os.path.dirname(__file__), 'data1.csv')
