@@ -5,7 +5,8 @@ from numpy import array, cos, sin, exp
 from numpy.testing import assert_allclose
 
 from touvlo.utils import (numerical_grad, g_grad, BGD, SGD,
-                          MBGD, mean_normlztn, feature_normalize)
+                          MBGD, mean_normlztn, feature_normalize,
+                          sigmoid, relu, sigmoid_backward, relu_backward)
 
 
 class TestLogisticRegression:
@@ -402,4 +403,76 @@ class TestLogisticRegression:
         assert_allclose(array([[0.707, 0.707, -0.707],
                                [-0.707, -0.707, 0.707]]),
                         X_norm,
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_sigmoid1(self):
+        Z = array([[3.43896131, -2.08938436]])
+
+        A, activation_cache = sigmoid(Z)
+
+        assert_allclose(A,
+                        array([[0.96890023, 0.11013289]]),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+        assert_allclose(activation_cache,
+                        array([[3.43896131, -2.08938436]]),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_sigmoid2(self):
+        Z = array([[0.04153939, -1.11792545]])
+
+        A, activation_cache = sigmoid(Z)
+
+        assert_allclose(A,
+                        array([[0.51038335, 0.24639629]]),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+        assert_allclose(activation_cache,
+                        array([[0.04153939, -1.11792545]]),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_relu1(self):
+        Z = array([[3.43896131, -2.08938436]])
+
+        A, activation_cache = relu(Z)
+
+        assert_allclose(A,
+                        array([[3.43896131, 0.]]),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+        assert_allclose(activation_cache,
+                        array([[3.43896131, -2.08938436]]),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_relu2(self):
+        Z = array([[0.04153939, -1.11792545]])
+
+        A, activation_cache = relu(Z)
+
+        assert_allclose(A,
+                        array([[0.04153939, 0.]]),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+        assert_allclose(activation_cache,
+                        array([[0.04153939, -1.11792545]]),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_relu_backward(self):
+        dAL = array([[-0.41675785, -0.05626683]])
+        activation_cache = array([[0.04153939, -1.11792545]])
+
+        dZ = relu_backward(dAL, activation_cache)
+
+        assert_allclose(dZ,
+                        array([[-0.41675785, 0.]]),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+    def test_sigmoid_backward(self):
+        dAL = array([[-0.41675785, -0.05626683]])
+        activation_cache = array([[0.04153939, -1.11792545]])
+
+        dZ = sigmoid_backward(dAL, activation_cache)
+
+        assert_allclose(dZ,
+                        array([[-0.10414453, -0.01044791]]),
                         rtol=0, atol=0.001, equal_nan=False)

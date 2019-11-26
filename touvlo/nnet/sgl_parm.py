@@ -1,6 +1,7 @@
 """
-.. module:: nn_clsf
-    :synopsis: Provides routines to construct a Classification Neural Network.
+.. module:: sgl_parm
+    :synopsis: Provides routines to construct a Single Parameter based
+        Classification Neural Network.
 
 .. moduleauthor:: Benardi Nunes <benardinunes@gmail.com>
 """
@@ -24,8 +25,8 @@ def feed_forward(X, theta, n_hidden_layers=1):
 
     Returns:
         (numpy.array(numpy.array), numpy.array(numpy.array)): A 2-tuple
-            consisting of an array of parameters prior to activation by layer
-            and an array of activation matrices by layer.
+        consisting of an array of parameters prior to activation by layer
+        and an array of activation matrices by layer.
     """
     z = empty((n_hidden_layers + 2), dtype=object)
     a = empty((n_hidden_layers + 2), dtype=object)

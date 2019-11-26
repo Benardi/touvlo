@@ -2,9 +2,9 @@ import pytest
 from numpy import array, append, empty, zeros, int64
 from numpy.testing import assert_allclose
 
-from touvlo.nn_clsf import (feed_forward, init_nn_weights,
-                            back_propagation, cost_function,
-                            grad, unravel_params, h)
+from touvlo.nnet.sgl_parm import (feed_forward, init_nn_weights,
+                                  back_propagation, cost_function,
+                                  grad, unravel_params, h)
 
 
 class TestNeuralNetwork:
@@ -336,20 +336,61 @@ class TestNeuralNetwork:
                         array([[0.97003, 0.92236, 0.90394]]),
                         rtol=0, atol=0.001, equal_nan=False)
 
-    def test_grad(self, omicron, omega):
+    # def test_grad1(self, omicron, omega):
+    #     X = array([[0.10, 0.30, -0.50], [-0.20, 0, -0.60], [0, 0.20, 0.45]])
+    #     y = array([[0], [2], [1]])
+
+    #     _lambda = 0
+    #     num_labels = 3
+    #     n_hidden_layers = 1
+    #     input_layer_size = 3
+    #     hidden_layer_size = 5
+
+    #     theta = empty((n_hidden_layers + 1), dtype=object)
+
+    #     theta[0] = omicron
+    #     theta[1] = omega
+
+    #     nn_params = append(theta[0].flatten(), theta[1].flatten())
+    #     for i in range(2, len(theta)):
+    #         nn_params = append(nn_params, theta[i].flatten())
+
+    #     theta_grad = grad(X, y, nn_params, _lambda, input_layer_size,
+    #                       hidden_layer_size, num_labels, n_hidden_layers)
+
+    #     theta_grad = unravel_params(theta_grad, input_layer_size,
+    #                                 hidden_layer_size, num_labels,
+    #                                 n_hidden_layers)
+
+    #     assert_allclose(theta_grad[0],
+    #                     array([[0.2331544, -0.0131348,
+    #                             0.0334961, -0.0652458],
+    #                            [0.1224948, -0.0088256,
+    #                             0.0156733, -0.0124328],
+    #                            [0.1457463, -0.0012316,
+    #                             0.0279176, -0.0223957],
+    #                            [0.2254230, -0.0137763,
+    #                             0.0313083, -0.0402217],
+    #                            [0.1379756, 0.0072703,
+    #                             0.0348654, -0.0063072]]),
+    #                     rtol=0, atol=0.001, equal_nan=False)
+
+    def test_grad2(self, omicron, kappa, upsilon, omega):
         X = array([[0.10, 0.30, -0.50], [-0.20, 0, -0.60], [0, 0.20, 0.45]])
         y = array([[0], [2], [1]])
 
         _lambda = 0
         num_labels = 3
-        n_hidden_layers = 1
+        n_hidden_layers = 3
         input_layer_size = 3
         hidden_layer_size = 5
 
         theta = empty((n_hidden_layers + 1), dtype=object)
 
         theta[0] = omicron
-        theta[1] = omega
+        theta[1] = kappa
+        theta[2] = upsilon
+        theta[3] = omega
 
         nn_params = append(theta[0].flatten(), theta[1].flatten())
         for i in range(2, len(theta)):
@@ -363,26 +404,51 @@ class TestNeuralNetwork:
                                     n_hidden_layers)
 
         assert_allclose(theta_grad[0],
-                        array([[0.2331544, -0.0131348,
-                                0.0334961, -0.0652458],
-                               [0.1224948, -0.0088256,
-                                0.0156733, -0.0124328],
-                               [0.1457463, -0.0012316,
-                                0.0279176, -0.0223957],
-                               [0.2254230, -0.0137763,
-                                0.0313083, -0.0402217],
-                               [0.1379756, 0.0072703,
-                                0.0348654, -0.0063072]]),
+                        array([[0.00888076, -0.00037553,
+                                0.00140062, -0.00239543],
+                               [0.00593564, -0.00029753,
+                                0.0008896, -0.00142376],
+                               [0.00482915, -0.00026358,
+                                0.00070225, -0.00125653],
+                               [0.00464157, -0.00018273,
+                                0.00074559, -0.00113462],
+                               [0.01128689, -0.00057505,
+                                0.00168233, -0.0030852]]),
                         rtol=0, atol=0.001, equal_nan=False)
 
         assert_allclose(theta_grad[1],
-                        array([
-                            [0.58222, 0.32373, 0.32671,
-                             0.38197, 0.28645, 0.35770],
-                            [0.52596, 0.23320, 0.28940,
-                             0.33057, 0.20557, 0.29964],
-                            [0.47943, 0.29941, 0.30099,
-                             0.34265, 0.27997, 0.32182]]),
+                        array([[0.01485439, 0.00764842, 0.00836604,
+                                0.00965858, 0.00680531, 0.00892825],
+                               [0.0124229, 0.00660367, 0.00713407,
+                                0.00821017, 0.00593702, 0.00760709],
+                               [0.01908864, 0.01029922, 0.01096824,
+                                0.01264679, 0.00925504, 0.01174501],
+                               [0.01636319, 0.00869154, 0.00942801,
+                                0.01083483, 0.00783027, 0.010033],
+                               [0.01034023, 0.00539169, 0.00586396,
+                                0.00676348, 0.00481504, 0.00625853]]),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+        assert_allclose(theta_grad[2],
+                        array([[0.07864736, 0.07161213, 0.07135838,
+                                0.06276429, 0.06381543, 0.07216725],
+                               [0.04317321, 0.03942242, 0.03929633,
+                                0.03455682, 0.0352771, 0.03974273],
+                               [0.07658592, 0.07010046, 0.06992083,
+                                0.06151802, 0.06279352, 0.07074325],
+                               [0.0822725, 0.07498372, 0.07472463,
+                                0.06571735, 0.06692659, 0.07557002],
+                               [0.04758598, 0.04374971, 0.04367545,
+                                0.038439, 0.03935008, 0.04420666]]),
+                        rtol=0, atol=0.001, equal_nan=False)
+
+        assert_allclose(theta_grad[3],
+                        array([[0.63643878, 0.58745847, 0.58304015,
+                                0.56468034, 0.58352476, 0.58973188],
+                               [0.58861418, 0.5423655, 0.53850052,
+                                0.52105296, 0.53862639, 0.54408255],
+                               [0.56982909, 0.52690266, 0.52294791,
+                                0.5069436, 0.52383591, 0.52954127]]),
                         rtol=0, atol=0.001, equal_nan=False)
 
     def test_back_prop_1(self, omega, zeta, iota):

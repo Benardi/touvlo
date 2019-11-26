@@ -5,7 +5,8 @@
 .. moduleauthor:: Benardi Nunes <benardinunes@gmail.com>
 """
 
-from numpy import zeros, copy, std, mean, float64, exp, seterr, where
+from numpy import (zeros, copy, std, mean, float64, exp, seterr,
+                   where, array, maximum)
 
 
 # sigmoid gradient function
@@ -31,7 +32,88 @@ def g_grad(x):
     Returns:
         obj: Sigmoid gradient at value.
     """
-    return g(x) * (1 - g(x))
+    s = g(x)
+    return s * (1 - s)
+
+
+def sigmoid(Z):
+    """
+    Implements the sigmoid activation in numpy
+
+    Arguments:
+    Z -- numpy array of any shape
+
+    Returns:
+    A -- output of sigmoid(z), same shape as Z
+    cache -- returns Z as well, useful during backpropagation
+    """
+    A = 1 / (1 + exp(-Z))
+    cache = Z
+
+    return A, cache
+
+
+def relu(Z):
+    """
+    Implement the RELU function.
+
+    Arguments:
+    Z -- Output of the linear layer, of any shape
+
+    Returns:
+    A -- Post-activation parameter, of the same shape as Z
+    cache -- a python dictionary containing "A" ; stored for
+        computing the backward pass efficiently
+    """
+    A = maximum(0, Z)
+
+    assert(A.shape == Z.shape)
+
+    cache = Z
+    return A, cache
+
+
+def relu_backward(dA, cache):
+    """
+    Implement the backward propagation for a single RELU unit.
+
+    Arguments:
+    dA -- post-activation gradient, of any shape
+    cache -- 'Z' where we store for computing backward propagation efficiently
+
+    Returns:
+    dZ -- Gradient of the cost with respect to Z
+    """
+    Z = cache
+    dZ = array(dA, copy=True)  # just converting dz to a correct object.
+
+    # When z <= 0, you should set dz to 0 as well.
+    dZ[Z <= 0] = 0
+
+    assert (dZ.shape == Z.shape)
+
+    return dZ
+
+
+def sigmoid_backward(dA, cache):
+    """
+    Implement the backward propagation for a single SIGMOID unit.
+
+    Arguments:
+    dA -- post-activation gradient, of any shape
+    cache -- 'Z' where we store for computing backward propagation efficiently
+
+    Returns:
+    dZ -- Gradient of the cost with respect to Z
+    """
+    Z = cache
+
+    s = 1 / (1 + exp(-Z))
+    dZ = dA * s * (1 - s)
+
+    assert (dZ.shape == Z.shape)
+
+    return dZ
 
 
 def BGD(X, y, grad, initial_theta,

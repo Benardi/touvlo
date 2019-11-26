@@ -4,5 +4,10 @@ Classification Neural Network
 
 Single Parameter
 ==================
-.. automodule:: touvlo.nn_clsf
+.. automodule:: touvlo.nnet.sgl_parm
+   :members:
+
+Computation Graph
+=================
+.. automodule:: touvlo.nnet.cmpt_grf
    :members:

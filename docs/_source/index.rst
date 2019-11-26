@@ -18,7 +18,7 @@ Contents
    
    lin_rg
    lgx_rg
-   nn_clsf
+   nnet
    rec_sys
    unsupv
    utils
